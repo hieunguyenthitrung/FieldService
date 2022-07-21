@@ -4,9 +4,11 @@ import 'package:field_services/my_app.dart';
 import 'package:field_services/root/root_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 void main() async {
   await setConfig(Flavor.production);
+  await initializeDateFormatting();
   BlocOverrides.runZoned(
     () => runApp(
       BlocProvider(
