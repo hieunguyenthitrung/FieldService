@@ -8,7 +8,7 @@ import 'package:field_services/widgets/dialogs/loading_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-abstract class BaseState<T extends StatefulWidget> extends State<T>{
+abstract class BaseState<T extends StatefulWidget> extends State<T> {
   bool _isShowingLoadingDialog = false;
   bool _isShowingDialog = false;
 
@@ -124,7 +124,7 @@ abstract class BaseState<T extends StatefulWidget> extends State<T>{
   Widget getLoadingWidget() {
     return const Center(
       child: SpinKitFadingCircle(
-        color: Colors.white,
+        color: AppColors.primaryColor,
       ),
     );
   }

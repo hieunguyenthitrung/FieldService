@@ -99,10 +99,13 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildLeadingButton() {
-    return IconButton(
-      iconSize: 24,
-      onPressed: _onLogoutPressed,
-      icon: const Icon(Icons.logout),
+    return RotatedBox(
+      quarterTurns: 2,
+      child: IconButton(
+        iconSize: 24,
+        onPressed: _onLogoutPressed,
+        icon: const Icon(Icons.logout),
+      ),
     );
   }
 
