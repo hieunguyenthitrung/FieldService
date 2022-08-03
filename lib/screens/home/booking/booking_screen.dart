@@ -6,6 +6,7 @@ import 'package:field_services/constants/app_constants.dart';
 import 'package:field_services/resources/app_colors.dart';
 import 'package:field_services/resources/app_theme.dart';
 import 'package:field_services/screens/home/booking/booking_cubit.dart';
+import 'package:field_services/utils/routes.dart';
 import 'package:field_services/widgets/di_refresh_indicator.dart';
 import 'package:field_services/widgets/items/task_item.dart';
 import 'package:field_services/widgets/load_more_indicator.dart';
@@ -40,7 +41,6 @@ class _BookingScreenState extends BaseState<BookingScreen> {
 
   @override
   void dispose() {
-    _pageController?.dispose();
     super.dispose();
   }
 
@@ -231,9 +231,6 @@ class _BookingScreenState extends BaseState<BookingScreen> {
       onRefresh: _onRefresh,
       child: ListView.separated(
         physics: const AlwaysScrollableScrollPhysics(),
-        padding: const EdgeInsets.all(
-          AppConstants.defaultPadding,
-        ).copyWith(top: 0),
         controller: _scrollController,
         itemCount:
             hasReachedMax || tasks.isEmpty ? tasks.length : tasks.length + 1,
@@ -248,10 +245,6 @@ class _BookingScreenState extends BaseState<BookingScreen> {
         separatorBuilder: (_, __) => Container(
           height: 1,
           width: double.infinity,
-          margin: const EdgeInsets.symmetric(
-            horizontal: AppConstants.defaultPadding,
-            vertical: AppConstants.defaultPadding / 2,
-          ),
           color: Colors.grey.withOpacity(0.2),
         ),
       ),
@@ -294,7 +287,9 @@ class _BookingScreenState extends BaseState<BookingScreen> {
     );
   }
 
-  _onTaskPressed() {}
+  _onTaskPressed() {
+    navigate(Routes.bookingDetailScreen);
+  }
 
   void _onPreviousNextBtnPressed(bool isNext) {
     if (isNext) {

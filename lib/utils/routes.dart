@@ -1,3 +1,5 @@
+import 'package:field_services/screens/booking_detail/booking_detail_cubit.dart';
+import 'package:field_services/screens/booking_detail/booking_detail_screen.dart';
 import 'package:field_services/screens/home/home_cubit.dart';
 import 'package:field_services/screens/home/home_screen.dart';
 import 'package:field_services/screens/login/login_cubit.dart';
@@ -16,6 +18,7 @@ class Routes {
   static const String loginScreen = '/login_screen';
   static const String selectLanguageScreen = '/select_language_screen';
   static const String homeScreen = '/home_screen';
+  static const String bookingDetailScreen = '/booking_detail_screen';
   static Route generateRoutes(RouteSettings settings) {
     switch (settings.name) {
       case splashScreen:
@@ -51,6 +54,14 @@ class Routes {
         return CupertinoPageRoute(
           settings: settings,
           builder: (_) => const MapScreen(),
+        );
+        case bookingDetailScreen:
+        return CupertinoPageRoute(
+          settings: settings,
+          builder: (_) => BlocProvider(
+            create: (ctx) => BookingDetailCubit(),
+            child: const BookingDetailScreen(),
+          ),
         );
       default:
         return CupertinoPageRoute(

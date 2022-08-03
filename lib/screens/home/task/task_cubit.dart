@@ -28,7 +28,7 @@ class TaskCubit extends Cubit<TaskState> {
       if (isRefresh || _currentIndex != currentIndex) {
         _page = 1;
         _hasReachedMax = false;
-        if (_currentIndex != currentIndex) {
+        if (_currentIndex != currentIndex && !isLoadMore) {
           _currentIndex = currentIndex;
           isRefresh = true;
           emit(TaskLoading());

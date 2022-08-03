@@ -5,6 +5,7 @@ import 'package:field_services/bases/base_state.dart';
 import 'package:field_services/constants/app_constants.dart';
 import 'package:field_services/resources/app_colors.dart';
 import 'package:field_services/screens/home/task/task_cubit.dart';
+import 'package:field_services/utils/routes.dart';
 import 'package:field_services/widgets/di_refresh_indicator.dart';
 import 'package:field_services/widgets/items/task_item.dart';
 import 'package:field_services/widgets/load_more_indicator.dart';
@@ -31,7 +32,9 @@ class _TaskScreenState extends BaseState<TaskScreen>
     _taskCubit = BlocProvider.of<TaskCubit>(context);
     _scrollController.addListener(_onScroll);
     _tabController.addListener(_onTabChange);
-    _taskCubit.loadTasks();
+    _taskCubit.loadTasks(
+      currentIndex: _tabController.index,
+    );
     super.initState();
   }
 
@@ -80,7 +83,10 @@ class _TaskScreenState extends BaseState<TaskScreen>
           Expanded(
             child: getErrorWidget(
               state.ex,
-              onPressed: () => _taskCubit.loadTasks(isShowLoading: true),
+              onPressed: () => _taskCubit.loadTasks(
+                isShowLoading: true,
+                currentIndex: _tabController.index,
+              ),
             ),
           ),
         ] else if (state is TaskLoading || state is TaskInitial) ...[
@@ -101,9 +107,6 @@ class _TaskScreenState extends BaseState<TaskScreen>
       onRefresh: _onRefresh,
       child: ListView.separated(
         physics: const AlwaysScrollableScrollPhysics(),
-        padding: const EdgeInsets.all(
-          AppConstants.defaultPadding,
-        ).copyWith(top: 0),
         controller: _scrollController,
         itemCount:
             hasReachedMax || tasks.isEmpty ? tasks.length : tasks.length + 1,
@@ -118,10 +121,6 @@ class _TaskScreenState extends BaseState<TaskScreen>
         separatorBuilder: (_, __) => Container(
           height: 1,
           width: double.infinity,
-          margin: const EdgeInsets.symmetric(
-            horizontal: AppConstants.defaultPadding,
-            vertical: AppConstants.defaultPadding / 2,
-          ),
           color: Colors.grey.withOpacity(0.2),
         ),
       ),
@@ -153,6 +152,7 @@ class _TaskScreenState extends BaseState<TaskScreen>
     if (currentScroll == maxScroll && !_taskCubit.hasReachedMax) {
       _taskCubit.loadTasks(
         isLoadMore: true,
+        currentIndex: _tabController.index,
       );
     }
   }
@@ -165,11 +165,14 @@ class _TaskScreenState extends BaseState<TaskScreen>
   Future _onRefresh() async {
     _taskCubit.loadTasks(
       isRefresh: true,
+      currentIndex: _tabController.index,
     );
     return _refreshCompleter?.future;
   }
 
-  _onTaskPressed() {}
+  _onTaskPressed() {
+    navigate(Routes.bookingDetailScreen);
+  }
 
   void _onTabChange() {
     if (_tabController.indexIsChanging) {
@@ -182,12 +185,14 @@ class _TaskScreenState extends BaseState<TaskScreen>
   }
 
   void _scrollToTop() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _scrollController.animateTo(
-        0.0,
-        duration: const Duration(milliseconds: 100),
-        curve: Curves.linear,
-      );
-    },);
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) {
+        _scrollController.animateTo(
+          0.0,
+          duration: const Duration(milliseconds: 100),
+          curve: Curves.linear,
+        );
+      },
+    );
   }
 }

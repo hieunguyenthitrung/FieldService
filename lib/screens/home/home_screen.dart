@@ -1,9 +1,10 @@
+import 'package:field_services/bases/base_state.dart';
 import 'package:field_services/resources/app_colors.dart';
 import 'package:field_services/screens/home/booking/booking_screen.dart';
 import 'package:field_services/screens/home/home_cubit.dart';
-import 'package:field_services/screens/home/notification/notification_screen.dart';
 import 'package:field_services/screens/home/profile/profile_screen.dart';
 import 'package:field_services/screens/home/task/task_screen.dart';
+import 'package:field_services/utils/routes.dart';
 import 'package:field_services/utils/triple.dart';
 import 'package:field_services/widgets/app_bar/app_bar_middle_text.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +17,7 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends BaseState<HomeScreen> {
   late HomeCubit _homeCubit;
 
   @override
@@ -136,7 +137,15 @@ class _HomeScreenState extends State<HomeScreen> {
     _homeCubit.onRefreshUI();
   }
 
-  void _onLogoutPressed() {}
+  void _onLogoutPressed() {
+    showConfirmDialog(
+      message: 'Are you sure you want to logout?',
+      onOkPressed: () => pushAndRemoveUtil(
+        Routes.loginScreen,
+        (route) => route.isFirst,
+      ),
+    );
+  }
 
   void _onNotificationPressed() {}
 }

@@ -49,7 +49,6 @@ abstract class BaseState<T extends StatefulWidget> extends State<T> {
           message,
           okText: okText,
           closeText: closeText,
-          okTextColor: Colors.white,
           onOkPressed: () {
             if (onOkPressed != null) {
               onOkPressed();
