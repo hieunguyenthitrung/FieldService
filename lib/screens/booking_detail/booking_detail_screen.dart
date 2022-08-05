@@ -1,5 +1,8 @@
+import 'package:field_services/constants/app_constants.dart';
 import 'package:field_services/resources/app_colors.dart';
 import 'package:field_services/widgets/app_bar/app_bar_middle_text.dart';
+import 'package:field_services/widgets/di_card.dart';
+import 'package:field_services/widgets/items/one_line_data_item.dart';
 import 'package:flutter/material.dart';
 
 class BookingDetailScreen extends StatefulWidget {
@@ -31,6 +34,9 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
     return Column(
       children: [
         _buildTabBar(),
+        Expanded(
+          child: _buildTabContent(),
+        ),
       ],
     );
   }
@@ -56,6 +62,33 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
           text: 'ddddddd',
         ),
       ],
+    );
+  }
+
+  Widget _buildTabContent() {
+    final items = List.generate(
+      5,
+      (index) => DiCard(
+        title: 'Notes',
+        child: Column(
+          children: List.generate(
+            5,
+            (index) => OneLineDataItem(
+              title: 'title',
+              content: 'content',
+              padding: EdgeInsets.zero,
+            ),
+          ),
+        ),
+      ),
+    );
+    return ListView.separated(
+      padding: const EdgeInsets.all(AppConstants.defaultPadding),
+      itemCount: items.length,
+      itemBuilder: ((context, index) => items[index]),
+      separatorBuilder: (_, __) => const SizedBox(
+        height: AppConstants.defaultPadding / 2,
+      ),
     );
   }
 }
