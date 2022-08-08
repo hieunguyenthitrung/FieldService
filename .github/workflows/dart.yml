@@ -3,7 +3,7 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-name: dart
+name: Test, Build and Release apk
 
 on:
   push:
@@ -26,6 +26,10 @@ jobs:
       
       - name: Flutter SDK
         run: export PATH=$PATH:/Users/hieunguyen/fvm/versions/stable/bin
+        
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ‘3.0.5’ #You can define the flutter version.
 
       - name: Install dependencies
         run: flutter pub get
