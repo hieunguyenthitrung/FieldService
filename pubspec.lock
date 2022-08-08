@@ -130,9 +130,11 @@ packages:
   dio_base_api:
     dependency: "direct main"
     description:
-      path: "../dio/dio_base_api"
-      relative: true
-    source: path
+      path: "."
+      ref: main
+      resolved-ref: "6ca6acf9a5f311dad57c626aff1b3f89be5515d9"
+      url: "https://github.com/hieunguyenthitrung/dio.git"
+    source: git
     version: "0.0.1"
   fake_async:
     dependency: transitive
