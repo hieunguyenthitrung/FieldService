@@ -46,4 +46,3 @@ jobs:
         uses: hieunguyenthitrung/release-action@v1
         with:
           artifacts: "build/app/outputs/apk/debug/*.apk"
-          token: ${{ secrets.TOKEN }}
