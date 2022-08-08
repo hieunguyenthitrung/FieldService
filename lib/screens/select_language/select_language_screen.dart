@@ -66,7 +66,7 @@ class _SelectLanguageScreenState extends BaseState<SelectLanguageScreen> {
               height: 1,
             ),
           ),
-        )
+        ),
       ],
     );
   }
