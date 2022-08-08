@@ -29,7 +29,7 @@ jobs:
         
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: ‘3.0.5’ #You can define the flutter version.
+          flutter-version: ‘stable’ #You can define the flutter version.
 
       - name: Install dependencies
         run: flutter pub get
