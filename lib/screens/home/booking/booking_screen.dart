@@ -169,24 +169,24 @@ class _BookingScreenState extends BaseState<BookingScreen> {
               ),
             ),
           ),
-          SizedBox(
-            width: 60,
-            child: InkWell(
-              borderRadius: BorderRadius.circular(100),
-              onTap: _onCalendarFormatTogglePressed,
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(100),
-                  border: Border.all(color: AppColors.mineShaft),
-                ),
-                padding: const EdgeInsets.symmetric(vertical: 6),
-                alignment: Alignment.center,
-                child: Text(
-                  _currentCalendarFormat.name,
-                ),
-              ),
-            ),
-          ),
+          // SizedBox(
+          //   width: 60,
+          //   child: InkWell(
+          //     borderRadius: BorderRadius.circular(100),
+          //     onTap: _onCalendarFormatTogglePressed,
+          //     child: Container(
+          //       decoration: BoxDecoration(
+          //         borderRadius: BorderRadius.circular(100),
+          //         border: Border.all(color: AppColors.mineShaft),
+          //       ),
+          //       padding: const EdgeInsets.symmetric(vertical: 6),
+          //       alignment: Alignment.center,
+          //       child: Text(
+          //         _currentCalendarFormat.name,
+          //       ),
+          //     ),
+          //   ),
+          // ),
           const SizedBox(
             width: AppConstants.defaultPadding,
           ),

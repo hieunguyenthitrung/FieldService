@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:field_services/bases/base_state.dart';
+import 'package:field_services/widgets/app_bar/app_bar_middle_text.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -15,7 +17,7 @@ class MapScreen extends StatefulWidget {
   State<MapScreen> createState() => _MapScreenState();
 }
 
-class _MapScreenState extends State<MapScreen> {
+class _MapScreenState extends BaseState<MapScreen> {
   final _mapController = Completer<GoogleMapController>();
 
   @override
@@ -26,13 +28,14 @@ class _MapScreenState extends State<MapScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: const AppBarMiddleText(
+        title: 'Map',
+      ),
       body: _buildBody(),
     );
   }
 
   Widget _buildBody() {
-
     return GoogleMap(
       mapType: MapType.normal,
       initialCameraPosition: _kHCM,
