@@ -70,7 +70,7 @@ jobs:
           echo "keyAlias=${{ secrets.ANDROID_KEY_ALIAS }}" >> android/key.properties
 
       - name: Build Android App Bundle
-        run: flutter build appbundle --release -t lib/main_prod.dart --flavor prod 
+        run: flutter build appbundle --release -t lib/main_prod.dart --flavor prod
 
       - name: Deploy to Play Store
         uses: r0adkll/upload-google-play@v1.0.17
