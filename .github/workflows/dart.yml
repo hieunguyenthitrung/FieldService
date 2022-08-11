@@ -70,13 +70,13 @@ jobs:
           echo "keyAlias=${{ secrets.ANDROID_KEY_ALIAS }}" >> android/key.properties
 
       - name: Build Android App Bundle
-        run: flutter build appbundle -t lib/main_prod.dart --flavor prod   
+        run: flutter build appbundle --release -t lib/main_prod.dart --flavor prod
 
       - name: Deploy to Play Store
         uses: r0adkll/upload-google-play@v1.0.17
         with:
           serviceAccountJsonPlainText: ${{secrets.GOOGLE_SERVICE_ACCOUNT_KEY}}
           packageName: ${{ secrets.ANDROID_PACKAGE_NAME }}
-          releaseFiles: build/app/outputs/bundle/release/app-release.aab
+          releaseFiles: build/app/outputs/bundle/prodRelease/app-prod-release.aab
           track: internal
           status: draft 
