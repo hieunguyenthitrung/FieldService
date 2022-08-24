@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "695225456857",
+    "firebase_url": "https://deft-haven-163001.firebaseio.com",
+    "project_id": "deft-haven-163001",
+    "storage_bucket": "deft-haven-163001.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:695225456857:android:9de08d5daa99d9b1d306c8",
+        "android_client_info": {
+          "package_name": "com.dicrd.firebase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "695225456857-lb696jouvhc90eg9gkf2ou0pseoh46ej.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBV40EUtFJlc_6jyGwmOSWUcEkfbt2dFj0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "695225456857-lb696jouvhc90eg9gkf2ou0pseoh46ej.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:695225456857:android:af54b4e00eb177fad306c8",
+        "android_client_info": {
+          "package_name": "com.example.field_services.stag"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "695225456857-lb696jouvhc90eg9gkf2ou0pseoh46ej.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBV40EUtFJlc_6jyGwmOSWUcEkfbt2dFj0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "695225456857-lb696jouvhc90eg9gkf2ou0pseoh46ej.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

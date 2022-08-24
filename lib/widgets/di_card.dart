@@ -6,12 +6,14 @@ class DiCard extends StatelessWidget {
   final String title;
   final Widget? suffix;
   final Function()? onPressed;
+  final EdgeInsets? padding;
   const DiCard({
     Key? key,
     required this.child,
     this.title = '',
     this.suffix,
     this.onPressed,
+    this.padding,
   }) : super(key: key);
 
   @override
@@ -34,7 +36,7 @@ class DiCard extends StatelessWidget {
           elevation: 0.0,
           color: Colors.transparent,
           child: Padding(
-            padding: const EdgeInsets.all(
+            padding: padding ?? const EdgeInsets.all(
               AppConstants.defaultPadding / 2,
             ),
             child: Column(
@@ -54,7 +56,7 @@ class DiCard extends StatelessWidget {
                   ),
                 ],
                 Padding(
-                  padding: const EdgeInsets.all(
+                  padding: padding ?? const EdgeInsets.all(
                     AppConstants.defaultPadding / 2,
                   ),
                   child: child,

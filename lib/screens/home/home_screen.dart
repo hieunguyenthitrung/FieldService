@@ -1,12 +1,18 @@
+import 'package:badges/badges.dart';
 import 'package:field_services/bases/base_state.dart';
+import 'package:field_services/constants/app_constants.dart';
 import 'package:field_services/resources/app_colors.dart';
+import 'package:field_services/resources/app_theme.dart';
 import 'package:field_services/screens/home/booking/booking_screen.dart';
 import 'package:field_services/screens/home/home_cubit.dart';
 import 'package:field_services/screens/home/profile/profile_screen.dart';
 import 'package:field_services/screens/home/task/task_screen.dart';
+import 'package:field_services/services/notification_service.dart';
+import 'package:field_services/utils/app_util.dart';
 import 'package:field_services/utils/routes.dart';
 import 'package:field_services/utils/triple.dart';
 import 'package:field_services/widgets/app_bar/app_bar_middle_text.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -17,12 +23,17 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends BaseState<HomeScreen> {
+class _HomeScreenState extends BaseState<HomeScreen>
+    implements PushNotificationListener {
   late HomeCubit _homeCubit;
+  final _notificationService = NotificationService();
 
   @override
   void initState() {
     _homeCubit = BlocProvider.of<HomeCubit>(context);
+    _notificationService.initialize();
+    _notificationService.setListener(this);
+    _getToken();
     super.initState();
   }
 
@@ -93,9 +104,25 @@ class _HomeScreenState extends BaseState<HomeScreen> {
   }
 
   Widget _buildNotificationButton() {
-    return IconButton(
-      onPressed: _onNotificationPressed,
-      icon: const Icon(Icons.notifications),
+    final count = AppUtil.badgeCount(100);
+    return Badge(
+      showBadge: count.isNotEmpty,
+      position: BadgePosition.topEnd(top: 6, end: 6),
+      // padding: EdgeInsets.all(AppConstants.defaultPadding / 8),
+      shape: BadgeShape.circle,
+      badgeColor: AppColors.neonRed,
+      borderRadius: BorderRadius.circular(8),
+      badgeContent: Text(
+        count,
+        style: AppTheme.titleTextStyle.copyWith(
+          color: Colors.white,
+          fontSize: 10,
+        ),
+      ),
+      child: IconButton(
+        onPressed: _onNotificationPressed,
+        icon: Icon(Icons.notifications),
+      ),
     );
   }
 
@@ -147,5 +174,21 @@ class _HomeScreenState extends BaseState<HomeScreen> {
     );
   }
 
-  void _onNotificationPressed() {}
+  void _onNotificationPressed() {
+    navigate(Routes.notificationScreen);
+  }
+
+  void _getToken() async {
+    print(await FirebaseMessaging.instance.getToken());
+  }
+
+  @override
+  void onReceivedNotification(payload) {
+    showInformDialog(message: payload.toString());
+  }
+
+  @override
+  void onShowPermissionPopup() {
+    // TODO: implement onShowPermissionPopup
+  }
 }

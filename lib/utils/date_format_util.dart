@@ -106,10 +106,16 @@ class DateFormatUtil {
     return DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now());
   }
 
+  static String timeDateFormat(String? dateTime) {
+    return DateFormat('HH:mm dd-MM-yyyy').format(
+      DateTime.tryParse(dateTime ?? DateTime.now().toIso8601String()) ??
+          DateTime.now(),
+    );
+  }
+
   static String eeeeddMMyyyyFormat({String? date, String? locale}) {
-    return DateFormat(
-            'EEEE, dd/MM/yyyy', locale ?? Platform.localeName)
-        .format((date?.isNotEmpty ?? false)
+    return DateFormat('EEEE, dd/MM/yyyy', locale ?? Platform.localeName).format(
+        (date?.isNotEmpty ?? false)
             ? DateTime.parse(date!)
             : DateTime.now().toUtc());
   }

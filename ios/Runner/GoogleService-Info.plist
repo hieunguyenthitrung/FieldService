@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>695225456857-prgu367hlhgjs4h4qtde8ebt60ao59pr.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.695225456857-prgu367hlhgjs4h4qtde8ebt60ao59pr</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAeezANUSzbn-Bj3uS0cv65eHqvmrBDXMY</string>
+	<key>GCM_SENDER_ID</key>
+	<string>695225456857</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.crm.fieldservices.stag</string>
+	<key>PROJECT_ID</key>
+	<string>deft-haven-163001</string>
+	<key>STORAGE_BUCKET</key>
+	<string>deft-haven-163001.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:695225456857:ios:293644b2bdd5b4bcd306c8</string>
+	<key>DATABASE_URL</key>
+	<string>https://deft-haven-163001.firebaseio.com</string>
+</dict>
+</plist>
