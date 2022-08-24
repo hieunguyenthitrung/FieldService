@@ -39,4 +39,3 @@ jobs:
         --username "${{ secrets.appstore_connect_username }}" \
         --password "${{ secrets.appstore_connect_password }}" --verbose
         
-        
