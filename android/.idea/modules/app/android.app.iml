@@ -19,7 +19,7 @@
         <option name="ALLOW_USER_CONFIGURATION" value="false" />
         <option name="MANIFEST_FILE_RELATIVE_PATH" value="/src/main/AndroidManifest.xml" />
         <option name="RES_FOLDER_RELATIVE_PATH" value="/src/main/res" />
-        <option name="RES_FOLDERS_RELATIVE_PATH" value="file://$MODULE_DIR$/../../../app/src/main/res;file://$MODULE_DIR$/../../../app/src/stag/res;file://$MODULE_DIR$/../../../app/src/debug/res;file://$MODULE_DIR$/../../../app/src/stagDebug/res;file://$MODULE_DIR$/../../../../build/app/generated/res/rs/stag/debug;file://$MODULE_DIR$/../../../../build/app/generated/res/resValues/stag/debug" />
+        <option name="RES_FOLDERS_RELATIVE_PATH" value="file://$MODULE_DIR$/../../../app/src/main/res;file://$MODULE_DIR$/../../../app/src/stag/res;file://$MODULE_DIR$/../../../app/src/debug/res;file://$MODULE_DIR$/../../../app/src/stagDebug/res;file://$MODULE_DIR$/../../../../build/app/generated/res/google-services/stag/debug;file://$MODULE_DIR$/../../../../build/app/generated/res/rs/stag/debug;file://$MODULE_DIR$/../../../../build/app/generated/res/resValues/stag/debug" />
         <option name="TEST_RES_FOLDERS_RELATIVE_PATH" value="file://$MODULE_DIR$/../../../app/src/androidTest/res;file://$MODULE_DIR$/../../../app/src/androidTestStag/res;file://$MODULE_DIR$/../../../app/src/androidTestDebug/res;file://$MODULE_DIR$/../../../app/src/androidTestStagDebug/res;file://$MODULE_DIR$/../../../../build/app/generated/res/rs/androidTest/stag/debug;file://$MODULE_DIR$/../../../../build/app/generated/res/resValues/androidTest/stag/debug" />
         <option name="ASSETS_FOLDER_RELATIVE_PATH" value="/src/main/assets" />
       </configuration>
