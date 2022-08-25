@@ -35,7 +35,7 @@ jobs:
 
       # Build and sign the ipa using a single flutter command
       - name: Building IPA
-        run: flutter build ipa --release -t lib/main_prod.dart --export-options-plist=ios/Runner/Info.plist  --flavor prod
+        run: flutter build ipa --release -t lib/main_stag.dart --export-options-plist=ios/Runner/Info.plist  --flavor stag
           
       # Collect the file and upload as artifact         
       - name: collect ipa artifacts
