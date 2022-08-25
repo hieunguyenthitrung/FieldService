@@ -10,6 +10,25 @@ jobs:
       # Checks-out our repository under $GITHUB_WORKSPACE, so our job can access it
       - name: Checkout repository
         uses: actions/checkout@v2
+        
+      - name: Install Apple Certificate
+        uses: apple-actions/import-codesign-certs@v1
+        with:
+          p12-file-base64: ${{ secrets.P12_BASE64 }}
+          p12-password: ${{ secrets.P12_PASSWORD }}
+
+      - name: Install the provisioning profile
+        env:
+          PROVISIONING_PROFILE_BASE64: ${{ secrets.PROVISIONING_PROFILE_BASE64 }}
+        run: |
+          # create variables
+          PP_PATH=$RUNNER_TEMP/build_pp.mobileprovision
+          # import provisioning profile from secrets
+          echo -n "$PROVISIONING_PROFILE_BASE64" | base64 --decode --output $PP_PATH
+          # apply provisioning profile
+          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+          cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles
+          
       # Install flutter
       - uses: subosito/flutter-action@v2
         with:
