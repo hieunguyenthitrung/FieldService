@@ -51,15 +51,21 @@ jobs:
 
       - name: Download pub dependencies
         run: flutter pub get
+        
+      - name: Build Flutter
+        run: flutter build ios --release --no-codesign
 
-      # Build and sign the ipa using a single flutter command
-      - name: Building IPA
-        run: flutter build ipa --release -t lib/main_stag.dart --export-options-plist=ios/Runner/Info.plist  --flavor stag
-          
-      # Collect the file and upload as artifact         
-      - name: collect ipa artifacts
-        uses: actions/upload-artifact@v2
+      - name: Build resolve Swift dependencies
+        run: xcodebuild -resolvePackageDependencies -workspace ios/Runner.xcworkspace -scheme ${{ env.SHEME }} -configuration ${{ env.BUILD_CONFIGURATION }}
+
+      - name: Build xArchive
+        run: |
+          xcodebuild -workspace ios/Runner.xcworkspace -scheme ${{ env.SHEME }} -configuration ${{ env.BUILD_CONFIGURATION }} DEVELOPMENT_TEAM=${{ env.TEAM_ID }} -sdk 'iphoneos' -destination 'generic/platform=iOS' -archivePath build-output/app.xcarchive PROVISIONING_PROFILE=106bdc42-25d3-4f77-a431-e69c56fc0b49 clean archive CODE_SIGN_IDENTITY="Apple Distribution: Damien Aicheh"
+      - name: Export ipa
+        run: xcodebuild -exportArchive -archivePath build-output/app.xcarchive -exportPath build-output/ios -exportOptionsPlist ios/ExportOptions.plist
+
+      - name: Publish iOS Artefacts
+        uses: actions/upload-artifact@v1
         with:
-         name: release-ipa
-         # Path to the release files
-         path: build/ios/ipa/*.ipa 
+          name: release-ios
+          path: build-output/ios
