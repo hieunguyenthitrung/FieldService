@@ -56,7 +56,7 @@ jobs:
         run: flutter build ipa --release -t lib/main_stag.dart --flavor stag --no-codesign
 
       - name: Build resolve Swift dependencies
-        run: xcodebuild -resolvePackageDependencies -workspace ios/Runner.xcworkspace -scheme ${{ env.SHEME }} -list ${{ env.BUILD_CONFIGURATION }}
+        run: xcodebuild -resolvePackageDependencies -workspace ios/Runner.xcworkspace -scheme ${{ env.SHEME }} -build_configuration ${{ env.BUILD_CONFIGURATION }}
 
       - name: Build xArchive
         run: |
