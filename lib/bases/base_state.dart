@@ -252,7 +252,7 @@ abstract class BaseState<T extends StatefulWidget> extends State<T> {
         backgroundColor: type.snackBarColor,
         content: Text(
           message,
-          style: AppTheme.bodyTextStyle,
+          style: AppTheme.bodyTextStyle.copyWith(color: Colors.white),
         ),
       ),
     );

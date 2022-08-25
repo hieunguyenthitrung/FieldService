@@ -105,23 +105,23 @@ class _HomeScreenState extends BaseState<HomeScreen>
 
   Widget _buildNotificationButton() {
     final count = AppUtil.badgeCount(100);
-    return Badge(
-      showBadge: count.isNotEmpty,
-      position: BadgePosition.topEnd(top: 6, end: 6),
-      // padding: EdgeInsets.all(AppConstants.defaultPadding / 8),
-      shape: BadgeShape.circle,
-      badgeColor: AppColors.neonRed,
-      borderRadius: BorderRadius.circular(8),
-      badgeContent: Text(
-        count,
-        style: AppTheme.titleTextStyle.copyWith(
-          color: Colors.white,
-          fontSize: 10,
+    return IconButton(
+      onPressed: _onNotificationPressed,
+      icon: Badge(
+        showBadge: count.isNotEmpty,
+        // position: BadgePosition.topEnd(top: 6, end: 6),
+        // padding: EdgeInsets.all(AppConstants.defaultPadding / 8),
+        shape: BadgeShape.circle,
+        badgeColor: AppColors.neonRed,
+        borderRadius: BorderRadius.circular(8),
+        badgeContent: Text(
+          count,
+          style: AppTheme.titleTextStyle.copyWith(
+            color: Colors.white,
+            fontSize: 10,
+          ),
         ),
-      ),
-      child: IconButton(
-        onPressed: _onNotificationPressed,
-        icon: Icon(Icons.notifications),
+        child: const Icon(Icons.notifications),
       ),
     );
   }
