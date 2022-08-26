@@ -6,7 +6,7 @@
 name: Flutter release
 
 on:
-  push:
+  pull:
     branches: [ "main" ]
 
 jobs:
