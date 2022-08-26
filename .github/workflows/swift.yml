@@ -58,11 +58,15 @@ jobs:
       - name: Build resolve Swift dependencies
         run: xcodebuild -resolvePackageDependencies -workspace ios/Runner.xcworkspace -scheme "stag" -configuration "Release-stag"
 
-      - name: Build xArchive
-        run: |
-          xcodebuild -workspace ios/Runner.xcworkspace -scheme "stag" DEVELOPMENT_TEAM="DI Central Corporation" -sdk 'iphoneos' -destination 'generic/platform=iOS' -archivePath build-output/app.xcarchive PROVISIONING_PROFILE=64b2d403-1db9-4341-8b0d-518e0ef8880c clean archive CODE_SIGN_IDENTITY="Apple Distribution: DI Central Corporation"
+      #- name: Build xArchive
+       # run: |
+         # xcodebuild -workspace ios/Runner.xcworkspace |
+         # -scheme "stag" DEVELOPMENT_TEAM=secrets.P12_BASE64 |
+         # -sdk 'iphoneos' -destination 'generic/platform=iOS' |
+         # -archivePath build-output/app.xcarchive PROVISIONING_PROFILE=64b2d403-1db9-4341-8b0d-518e0ef8880c clean archive CODE_SIGN_IDENTITY="Apple Distribution: DI Central Corporation"
       - name: Export ipa
-        run: xcodebuild -exportArchive -archivePath build-output/app.xcarchive -exportPath build-output/ios -exportOptionsPlist ios/ExportOptions.plist
+        #run: xcodebuild -exportArchive -archivePath build-output/app.xcarchive -exportPath build-output/ios -exportOptionsPlist ios/ExportOptions.plist
+        run: flutter build ipa --release -t lib/main_stag.dart --flavor stag --export-options-plist=ios/Runner/ExportOptions.plist
 
       - name: Publish iOS Artefacts
         uses: actions/upload-artifact@v1
