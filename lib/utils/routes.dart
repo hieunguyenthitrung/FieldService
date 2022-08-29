@@ -9,6 +9,8 @@ import 'package:field_services/screens/home/notification/notification_screen.dar
 import 'package:field_services/screens/login/login_cubit.dart';
 import 'package:field_services/screens/login/login_screen.dart';
 import 'package:field_services/screens/map/map_screen.dart';
+import 'package:field_services/screens/register/register_cubit.dart';
+import 'package:field_services/screens/register/register_screen.dart';
 import 'package:field_services/screens/select_language/select_language_cubit.dart';
 import 'package:field_services/screens/select_language/select_language_screen.dart';
 import 'package:field_services/screens/splash/splash_screen.dart';
@@ -25,6 +27,7 @@ class Routes {
   static const String bookingDetailScreen = '/booking_detail_screen';
   static const String notificationScreen = '/notification_screen';
   static const String changePasswordScreen = '/change_password_screen';
+  static const String registerScreen = '/register_screen';
   static Route generateRoutes(RouteSettings settings) {
     switch (settings.name) {
       case splashScreen:
@@ -83,6 +86,14 @@ class Routes {
           builder: (_) => BlocProvider(
             create: (ctx) => ChangePasswordCubit(),
             child: const ChangePasswordScreen(),
+          ),
+        );
+        case registerScreen:
+        return CupertinoPageRoute(
+          settings: settings,
+          builder: (_) => BlocProvider(
+            create: (ctx) => RegisterCubit(),
+            child: const RegisterScreen(),
           ),
         );
       default:
