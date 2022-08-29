@@ -78,8 +78,8 @@ jobs:
          # -sdk 'iphoneos' -destination 'generic/platform=iOS' |
          # -archivePath build-output/app.xcarchive PROVISIONING_PROFILE=64b2d403-1db9-4341-8b0d-518e0ef8880c clean archive CODE_SIGN_IDENTITY="Apple Distribution: DI Central Corporation"
       - name: Export ipa
-        #run: xcodebuild -exportArchive -archivePath build-output/app.xcarchive -exportPath build-output/ios -exportOptionsPlist ios/ExportOptions.plist
-        run: flutter build ipa --release -t lib/main_prod.dart --flavor prod --export-options-plist=ios/Runner/Info.plist
+        run: xcodebuild -exportArchive -archivePath build-output/app.xcarchive -exportPath build-output/ios -exportOptionsPlist ios/ExportOptions.plist
+        #run: flutter build ipa --release -t lib/main_prod.dart --flavor prod --export-options-plist=ios/Runner/Info.plist
 
       - name: Publish iOS Artefacts
         uses: actions/upload-artifact@v1
