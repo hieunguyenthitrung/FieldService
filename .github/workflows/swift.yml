@@ -20,11 +20,24 @@ jobs:
       - name: Install the provisioning profile
         env:
           PROVISIONING_PROFILE_BASE64: ${{ secrets.PROVISIONING_PROFILE_BASE64 }}
+          BUILD_CERTIFICATE_BASE64: ${{ secrets.P12_BASE64 }}
+          P12_PASSWORD: ${{ secrets.P12_PASSWORD }}
+          KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
         run: |
           # create variables
+          CERTIFICATE_PATH=$RUNNER_TEMP/build_certificate.p12
           PP_PATH=$RUNNER_TEMP/build_pp.mobileprovision
-          # import provisioning profile from secrets
+          KEYCHAIN_PATH=$RUNNER_TEMP/app-signing.keychain-db
+          # import certificate and provisioning profile from secrets
+          echo -n "$BUILD_CERTIFICATE_BASE64" | base64 --decode --output $CERTIFICATE_PATH
           echo -n "$PROVISIONING_PROFILE_BASE64" | base64 --decode --output $PP_PATH
+          # create temporary keychain
+          security create-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+          security set-keychain-settings -lut 21600 $KEYCHAIN_PATH
+          security unlock-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+          # import certificate to keychain
+          security import $CERTIFICATE_PATH -P "$P12_PASSWORD" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
+          security list-keychain -d user -s $KEYCHAIN_PATH
           # apply provisioning profile
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
           cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles
@@ -55,18 +68,19 @@ jobs:
       - name: Build Flutter
         run: flutter build ipa --release -t lib/main_prod.dart --flavor prod --no-codesign
 
-      - name: Build resolve Swift dependencies
-        run: xcodebuild -resolvePackageDependencies -workspace ios/Runner.xcworkspace -scheme "prod" -configuration "Release-prod"
+      #- name: Build resolve Swift dependencies
+      #  run: xcodebuild -resolvePackageDependencies -workspace ios/Runner.xcworkspace -scheme "prod" -configuration "Release-prod"
 
-      - name: Build xArchive
-        run: |
-            xcodebuild -workspace ios/Runner.xcworkspace -scheme "prod" -configuration "Release-prod" DEVELOPMENT_TEAM=C6AWKY4LF3 -sdk 'iphoneos' -destination 'generic/platform=iOS' -archivePath build-output/app.xcarchive clean archive CODE_SIGN_IDENTITY="Apple Distribution: DI Central Corporation" 
+      #- name: Build xArchive
+      #  run: |
+      #      xcodebuild -workspace ios/Runner.xcworkspace -scheme "prod" -configuration "Release-prod" DEVELOPMENT_TEAM=C6AWKY4LF3 -sdk 'iphoneos' -destination 'generic/platform=iOS' -archivePath build-output/app.xcarchive clean archive CODE_SIGN_IDENTITY="Apple Distribution: DI Central Corporation" 
       - name: Export ipa
-        run: xcodebuild -exportArchive -archivePath build-output/app.xcarchive -exportPath build-output/ios -exportOptionsPlist ios/Runner/Info.plist
-        #run: flutter build ipa --release -t lib/main_prod.dart --flavor prod --export-options-plist=ios/Runner/Info.plist
+        #run: xcodebuild -exportArchive -archivePath build-output/app.xcarchive -exportPath build-output/ios -exportOptionsPlist ios/Runner/Info.plist
+        run: flutter build ipa --release -t lib/main_prod.dart --flavor prod --export-options-plist=ios/Runner/Info.plist
 
       - name: Publish iOS Artefacts
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v2
         with:
-          name: release-ios
-          path: build-output/ios
+         name: release-ipa
+         # Path to the release files
+         path: build/ios/ipa/*.ipa
