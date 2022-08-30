@@ -23,6 +23,8 @@ jobs:
           BUILD_CERTIFICATE_BASE64: ${{ secrets.P12_BASE64 }}
           P12_PASSWORD: ${{ secrets.P12_PASSWORD }}
           KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
+          APPLEID_USERNAME: ${{ secrets.APPLEID_USERNAME }}
+          APPLEID_PASSWORD: ${{ secrets.APPLEID_PASSWORD }}
         run: |
           # create variables
           CERTIFICATE_PATH=$RUNNER_TEMP/build_certificate.p12
@@ -30,7 +32,7 @@ jobs:
           KEYCHAIN_PATH=$RUNNER_TEMP/app-signing.keychain-db
           # import certificate and provisioning profile from secrets
           echo -n "$BUILD_CERTIFICATE_BASE64" | base64 --decode --output $CERTIFICATE_PATH
-          echo -n "$PROVISIONING_PROFILE_BASE64" | base64 --decode --output $PP_PATH
+          echo -n "$BUILD_PROVISION_PROFILE_BASE64" | base64 --decode --output $PP_PATH
           # create temporary keychain
           security create-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
           security set-keychain-settings -lut 21600 $KEYCHAIN_PATH
@@ -74,9 +76,24 @@ jobs:
       #- name: Build xArchive
       #  run: |
       #      xcodebuild -workspace ios/Runner.xcworkspace -scheme "prod" -configuration "Release-prod" DEVELOPMENT_TEAM=C6AWKY4LF3 -sdk 'iphoneos' -destination 'generic/platform=iOS' -archivePath build-output/app.xcarchive clean archive CODE_SIGN_IDENTITY="Apple Distribution: DI Central Corporation" 
-      - name: Export ipa
+     # - name: Export ipa
         #run: xcodebuild -exportArchive -archivePath build-output/app.xcarchive -exportPath build-output/ios -exportOptionsPlist ios/Runner/Info.plist
-        run: flutter build ipa --release -t lib/main_prod.dart --flavor prod --export-options-plist=ios/Runner/Info.plist
+        #run: flutter build ipa --release -t lib/main_prod.dart --flavor prod --export-options-plist=ios/Runner/Info.plist
+        
+      - name: Build app
+        run: |
+          xcodebuild -resolvePackageDependencies -scheme Quality -project myapp-ios.xcodeproj | xcpretty
+          xcodebuild -showBuildSettings -scheme Quality -project myapp-ios.xcodeproj | xcpretty
+          xcodebuild -project myapp-ios.xcodeproj -scheme Quality \
+          archive -archivePath "./Quality - myapp.xcarchive" \
+          -destination generic/platform=iOS | xcpretty
+          xcodebuild -archivePath "./Quality - myapp.xcarchive" \
+            -exportOptionsPlist "./myapp-ios/Configuration/Quality-Info.plist" \
+            -exportPath "./build" \
+            -allowProvisioningUpdates \
+            -exportArchive | xcpretty
+          ls -R build
+          xcrun altool --upload-app -t ios -f build/Quality.ipa -u "$APPLEID_USERNAME" -p "$APPLEID_PASSWORD" --verbose
 
       - name: Publish iOS Artefacts
         uses: actions/upload-artifact@v2
