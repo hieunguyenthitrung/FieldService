@@ -74,11 +74,11 @@ jobs:
       #- name: Build resolve Swift dependencies
       #  run: xcodebuild -resolvePackageDependencies -workspace ios/Runner.xcworkspace -scheme "prod" -configuration "Release-prod"
 
-      - name: Build xArchive
-        run: |
-            xcodebuild -workspace ios/Runner.xcworkspace -scheme "prod" -configuration "Release-prod" DEVELOPMENT_TEAM="C6AWKY4LF3" -sdk 'iphoneos' -destination 'generic/platform=iOS' -archivePath build-output/app.xcarchive PROVISIONING_PROFILE=${{ secrets.PROVISIONING_PROFILE_BASE64 }} clean archive CODE_SIGN_IDENTITY=${{ secrets.P12_BASE64 }}  -allowProvisioningUpdates 
-      - name: Export ipa 
-        run: xcodebuild -exportArchive -archivePath build-output/app.xcarchive -exportPath build-output/ios -exportOptionsPlist ios/Runner/Info.plist
+      #- name: Build xArchive
+       # run: |
+        #    xcodebuild -workspace ios/Runner.xcworkspace -scheme "prod" -configuration "Release-prod" DEVELOPMENT_TEAM="C6AWKY4LF3" -sdk 'iphoneos' -destination 'generic/platform=iOS' -archivePath build-output/app.xcarchive PROVISIONING_PROFILE=${{ secrets.PROVISIONING_PROFILE_BASE64 }} clean archive CODE_SIGN_IDENTITY=${{ secrets.P12_BASE64 }}  -allowProvisioningUpdates 
+      #- name: Export ipa 
+      #  run: xcodebuild -exportArchive -archivePath build-output/app.xcarchive -exportPath build-output/ios -exportOptionsPlist ios/Runner/Info.plist
         #run: flutter build ipa --release -t lib/main_prod.dart --flavor prod --export-options-plist=ios/Runner/Info.plist
         
       #- name: Build app
@@ -95,9 +95,26 @@ jobs:
       #ls -R build
       #xcrun altool --upload-app -t ios -f build/Runner.ipa -u "$APPLEID_USERNAME" -p "$APPLEID_PASSWORD" --verbose
 
-      - name: Publish iOS Artefacts
+      #- name: Publish iOS Artefacts
+     #   uses: actions/upload-artifact@v2
+      #  with:
+       #  name: release-ipa
+         # Path to the release files
+       #  path: build/prod/ipa/*.ipa
+       
+      - name: Build IOS App
+        uses: yukiarrr/ios-build-action@v1.4.0
+        with:
+          project-path: ios/Runner.xcodeproj
+          p12-base64: ${{ secrets.P12_BASE64 }}
+          mobileprovision-base64: ${{ secrets.PROVISIONING_PROFILE_BASE64 }}
+          code-signing-identity: 'iPhone Distribution'
+          team-id: ${{ secrets.TEAM_ID }}
+          certificate-password: ${{ secrets.P12_PASSWORD }}
+          workspace-path: ios/Runner.xcworkspace
+
+      - name: Upload Artifact
         uses: actions/upload-artifact@v2
         with:
-         name: release-ipa
-         # Path to the release files
-         path: build/prod/ipa/*.ipa
+          name: Test IOS IPA
+          path: 'output.ipa'
