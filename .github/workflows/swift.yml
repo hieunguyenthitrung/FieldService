@@ -82,17 +82,16 @@ jobs:
         
       - name: Build app
         run: |
-          xcodebuild -resolvePackageDependencies -scheme prod -project Runner.xcodeproj | xcpretty
-          xcodebuild -showBuildSettings -scheme prod -project Runner.xcodeproj | xcpretty
-          xcodebuild -project Runners.xcodeproj -scheme prod \
-          archive -archivePath "./prod - Runner.xcarchive" \
-          -destination generic/platform=iOS | xcpretty
+          xcodebuild -resolvePackageDependencies -workspace ios/Runner.xcworkspace -scheme "prod" -configuration "Release-prod"
+          xcodebuild -showBuildSettings -workspace ios/Runner.xcworkspace -scheme "prod" -configuration "Release-prod"
+          xcodebuild -workspace ios/Runner.xcworkspace -scheme "prod" -configuration "Release-prod"
+          archive -archivePath "./prod - Runner.xcarchive" -destination generic/platform=iOS | xcpretty
           xcodebuild -archivePath "./prod - Runner.xcarchive" \
             -exportOptionsPlist ".ios/Runner/Info.plist" \
             -exportPath "./build" \
             -allowProvisioningUpdates \
             -exportArchive | xcpretty
-          ls -R build
+      #ls -R build
       #xcrun altool --upload-app -t ios -f build/Runner.ipa -u "$APPLEID_USERNAME" -p "$APPLEID_PASSWORD" --verbose
 
       - name: Publish iOS Artefacts
