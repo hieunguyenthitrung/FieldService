@@ -76,7 +76,7 @@ jobs:
 
       - name: Build xArchive
         run: |
-            xcodebuild -workspace ios/Runner.xcworkspace -scheme "prod" -configuration "Release-prod" DEVELOPMENT_TEAM="C6AWKY4LF3" -sdk 'iphoneos' -destination 'generic/platform=iOS' -archivePath build-output/app.xcarchive PROVISIONING_PROFILE=${{ secrets.PROVISIONING_PROFILE_BASE64 }} clean archive CODE_SIGN_IDENTITY="iOS Distribution"  -allowProvisioningUpdates 
+            xcodebuild -workspace ios/Runner.xcworkspace -scheme "prod" -configuration "Release-prod" DEVELOPMENT_TEAM="C6AWKY4LF3" -sdk 'iphoneos' -destination 'generic/platform=iOS' -archivePath build-output/app.xcarchive PROVISIONING_PROFILE=${{ secrets.PROVISIONING_PROFILE_BASE64 }} clean archive CODE_SIGN_IDENTITY=${{ secrets.P12_BASE64 }}  -allowProvisioningUpdates 
       - name: Export ipa 
         run: xcodebuild -exportArchive -archivePath build-output/app.xcarchive -exportPath build-output/ios -exportOptionsPlist ios/Runner/Info.plist
         #run: flutter build ipa --release -t lib/main_prod.dart --flavor prod --export-options-plist=ios/Runner/Info.plist
