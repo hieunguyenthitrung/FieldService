@@ -104,7 +104,7 @@ jobs:
        
       - name: Build xArchive
         run: |
-          xcodebuild -workspace ios/Runner.xcworkspace -scheme prod -configuration Release-prod DEVELOPMENT_TEAM=${{ secrets.TEAM_ID }} -sdk 'iphoneos' -destination 'generic/platform=iOS' -archivePath build-output/app.xcarchive PROVISIONING_PROFILE=${{ secrets.PROVISIONING_PROFILE_BASE64 }} clean archive CODE_SIGN_IDENTITY='iPhone Distribution'
+          xcodebuild -workspace ios/Runner.xcworkspace -scheme prod -configuration Release-prod DEVELOPMENT_TEAM=${{ secrets.TEAM_ID }} -sdk 'iphoneos' -destination 'generic/platform=iOS' -archivePath build-output/app.xcarchive PROVISIONING_PROFILE=${{ secrets.PROVISIONING_PROFILE_BASE64 }} clean archive CODE_SIGN_IDENTITY='iPhone Distribution' p12-base64: ${{ secrets.P12_BASE64 }} certificate-password: ${{ secrets.P12_PASSWORD }}
       - name: Export ipa
         run: xcodebuild -exportArchive -archivePath build-output/app.xcarchive -exportPath build-output/ios -exportOptionsPlist ios/ExportOptions.plist
        
