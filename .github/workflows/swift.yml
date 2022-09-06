@@ -69,7 +69,13 @@ jobs:
         run: flutter pub get
         
       - name: Build Flutter
-        run: flutter build ipa --release -t lib/main_prod.dart --flavor prod --no-codesign
+        run: flutter build ipa --release -t lib/main_prod.dart --flavor prod --no-codesign -exportOptionsPlist  ~/Downloads/ExportOptions.plist
+
+      - name: Clean up keychain and provisioning profile
+        if: ${{ always() }}
+        run: |
+          security delete-keychain $RUNNER_TEMP/app-signing.keychain-db
+          rm ~/Library/MobileDevice/Provisioning\ Profiles/build_pp.mobileprovision
 
       #- name: Build resolve Swift dependencies
       #  run: xcodebuild -resolvePackageDependencies -workspace ios/Runner.xcworkspace -scheme "prod" -configuration "Release-prod"
