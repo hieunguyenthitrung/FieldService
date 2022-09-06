@@ -69,7 +69,7 @@ jobs:
         run: flutter pub get
         
       - name: Build Flutter
-        run: flutter build ipa --release -t lib/main_prod.dart --flavor prod --no-codesign --export-options-plist=ios/Runner/ExportOptions.plist
+        run: flutter build ipa --release -t lib/main_prod.dart --flavor prod --no-codesign --export-options-plist=ios/Runner/Info.plist
 
       - name: Clean up keychain and provisioning profile
         if: ${{ always() }}
