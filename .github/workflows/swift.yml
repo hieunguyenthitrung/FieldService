@@ -86,11 +86,11 @@ jobs:
           security delete-keychain $RUNNER_TEMP/app-signing.keychain-db
           rm ~/Library/MobileDevice/Provisioning\ Profiles/build_pp.mobileprovision
           
-      # Retrieve ipa file from GitHub artifacts
-      - name: Get release-ipa from artifacts
-        uses: actions/download-artifact@v2
-        with:
-         name: release-ipa
+#       # Retrieve ipa file from GitHub artifacts
+#       - name: Get release-ipa from artifacts
+#         uses: actions/download-artifact@v2
+#         with:
+#          name: release-ipa
 
       #- name: Build resolve Swift dependencies
       #  run: xcodebuild -resolvePackageDependencies -workspace ios/Runner.xcworkspace -scheme "prod" -configuration "Release-prod"
