@@ -69,7 +69,7 @@ jobs:
         run: flutter pub get
         
       - name: Build Flutter
-        run: flutter build ipa --release -t lib/main_prod.dart --flavor prod --export-options-plist=ios/Runner/ExportOptions.plist
+        run: flutter build ipa --release -t lib/main_prod.dart --flavor prod --no-codesign #--export-options-plist=ios/Runner/ExportOptions.plist
 
       # Collect the file and upload as artifact         
       - name: collect ipa artifacts
@@ -123,9 +123,9 @@ jobs:
          # Path to the release files
        #  path: build/prod/ipa/*.ipa
        
-#       - name: Build xArchive
-#         run: |
-#           xcodebuild -workspace ios/Runner.xcworkspace -scheme prod -configuration Release DEVELOPMENT_TEAM=${{ secrets.TEAM_ID }} -sdk 'iphoneos' -destination 'generic/platform=iOS' -archivePath build-output/app.xcarchive clean archive -allowProvisioningUpdates
+      - name: Build xArchive
+        run: |
+          xcodebuild -workspace ios/Runner.xcworkspace -scheme prod -configuration Release DEVELOPMENT_TEAM=${{ secrets.TEAM_ID }} -sdk 'iphoneos' -destination 'generic/platform=iOS' -archivePath build-output/app.xcarchive clean archive -allowProvisioningUpdates
 #       - name: Export ipa
 #         run: xcodebuild -exportArchive -archivePath build-output/app.xcarchive -exportPath build-output/ios -exportOptionsPlist ios/ExportOptions.plist
        
