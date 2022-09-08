@@ -21,7 +21,7 @@ jobs:
         env:
           BUILD_CERTIFICATE_BASE64: ${{ secrets.P12_BASE64 }}
           P12_PASSWORD: ${{ secrets.P12_PASSWORD }}
-          BUILD_PROVISION_PROFILE_BASE64: ${{ secrets.PROVISIONING_PROFILE_BASE64 }}
+          BUILD_PROVISION_PROFILE_BASE64: ${{ secrets.ADHOC }}
           KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
         run: |
           # create variables
@@ -68,23 +68,23 @@ jobs:
       - name: Download pub dependencies
         run: flutter pub get
         
-      - name: Build Flutter
-        run: flutter build ipa --release -t lib/main_prod.dart --flavor prod --no-codesign #--export-options-plist=ios/Runner/ExportOptions.plist
+#       - name: Build Flutter
+#         run: flutter build ipa --release -t lib/main_prod.dart --flavor prod --no-codesign #--export-options-plist=ios/Runner/ExportOptions.plist
 
-      # Collect the file and upload as artifact         
-      - name: collect ipa artifacts
-        uses: actions/upload-artifact@v2
-        with:
-         name: release-ipa
-         # Path to the release files
-         path: build/ios/ipa/*.ipa
+#       # Collect the file and upload as artifact         
+#       - name: collect ipa artifacts
+#         uses: actions/upload-artifact@v2
+#         with:
+#          name: release-ipa
+#          # Path to the release files
+#          path: build/ios/ipa/*.ipa
 
       # Important! Cleanup: remove the certificate and provisioning profile from the runner!
-      - name: Clean up keychain and provisioning profile
-        if: ${{ always() }}
-        run: |
-          security delete-keychain $RUNNER_TEMP/app-signing.keychain-db
-          rm ~/Library/MobileDevice/Provisioning\ Profiles/build_pp.mobileprovision
+#       - name: Clean up keychain and provisioning profile
+#         if: ${{ always() }}
+#         run: |
+#           security delete-keychain $RUNNER_TEMP/app-signing.keychain-db
+#           rm ~/Library/MobileDevice/Provisioning\ Profiles/build_pp.mobileprovision
           
 #       # Retrieve ipa file from GitHub artifacts
 #       - name: Get release-ipa from artifacts
@@ -125,7 +125,7 @@ jobs:
        
       - name: Build xArchive
         run: |
-          xcodebuild -workspace ios/Runner.xcworkspace -scheme prod -configuration Release DEVELOPMENT_TEAM=${{ secrets.TEAM_ID }} PROVISIONING_PROFILE=${{ secrets.PROVISIONING_PROFILE_BASE64 }} CODE_SIGN_IDENTITY=${{ secrets.P12_BASE64 }} -sdk 'iphoneos' -destination 'generic/platform=iOS' -archivePath build-output/app.xcarchive clean archive 
+          xcodebuild -workspace ios/Runner.xcworkspace -scheme prod -configuration Release DEVELOPMENT_TEAM=${{ secrets.TEAM_ID }} -sdk 'iphoneos' -destination 'generic/platform=iOS' -archivePath build-output/app.xcarchive clean archive -allowProvisioningUpdates
 #       - name: Export ipa
 #         run: xcodebuild -exportArchive -archivePath build-output/app.xcarchive -exportPath build-output/ios -exportOptionsPlist ios/ExportOptions.plist
        
