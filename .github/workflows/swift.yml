@@ -125,7 +125,7 @@ jobs:
        
       - name: Build xArchive
         run: |
-          xcodebuild -workspace ios/Runner.xcworkspace -scheme prod -configuration Release DEVELOPMENT_TEAM=${{ secrets.TEAM_ID }} -sdk 'iphoneos' -destination 'generic/platform=iOS' -archivePath build-output/app.xcarchive clean archive -allowProvisioningUpdates
+          xcodebuild -workspace ios/Runner.xcworkspace -scheme prod -configuration Release -sdk 'iphoneos' -destination 'generic/platform=iOS' -archivePath build-output/app.xcarchive clean archive -allowProvisioningUpdates
 #       - name: Export ipa
 #         run: xcodebuild -exportArchive -archivePath build-output/app.xcarchive -exportPath build-output/ios -exportOptionsPlist ios/ExportOptions.plist
        
