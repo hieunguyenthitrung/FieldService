@@ -72,15 +72,15 @@ jobs:
         run: flutter pub get
         
       - name: Build Flutter
-        run: flutter build ipa --release -t lib/main_prod.dart --flavor prod #--no-codesign #--export-options-plist=ios/Runner/ExportOptions.plist
+        run: flutter build ipa --release -t lib/main_prod.dart --flavor prod --export-options-plist=ios/Runner/ExportOptions.plist
 
-#       # Collect the file and upload as artifact         
-#       - name: collect ipa artifacts
-#         uses: actions/upload-artifact@v2
-#         with:
-#          name: release-ipa
-#          # Path to the release files
-#          path: build/ios/ipa/*.ipa
+      # Collect the file and upload as artifact         
+      - name: collect ipa artifacts
+        uses: actions/upload-artifact@v2
+        with:
+         name: release-ipa
+         # Path to the release files
+         path: build/ios/ipa/*.ipa
 
       # Important! Cleanup: remove the certificate and provisioning profile from the runner!
 #       - name: Clean up keychain and provisioning profile
@@ -89,11 +89,25 @@ jobs:
 #           security delete-keychain $RUNNER_TEMP/app-signing.keychain-db
 #           rm ~/Library/MobileDevice/Provisioning\ Profiles/build_pp.mobileprovision
           
-#       # Retrieve ipa file from GitHub artifacts
-#       - name: Get release-ipa from artifacts
-#         uses: actions/download-artifact@v2
-#         with:
-#          name: release-ipa
+      # Retrieve ipa file from GitHub artifacts
+      - name: Get release-ipa from artifacts
+        uses: actions/download-artifact@v2
+        with:
+         name: release-ipa
+         
+#       - name: Validate build to TestFlight
+#         run: xcrun altool --validate-app --file "build/ios/ipa/*.ipa" --username "$APP_STORE_USERNAME" --password @keychain:"Application Loader: $APP_STORE_USERNAME"
+
+#       - name: Upload build to TestFlight
+#         run: xcrun altool --upload-app --file "$IPA_PATH" --username "$APP_STORE_USERNAME" --password @keychain:"Application Loader: $APP_STORE_USERNAME"
+
+      - name: Upload app to App Store Connect
+        env:
+          APP_STORE_CONNECT_USERNAME: ${{ secrets.APPSTORE_CONNECT_USERNAME }}
+          APP_STORE_CONNECT_PASSWORD: ${{ secrets.APPSTORE_CONNECT_PASSWORD }}
+        run: |
+          xcrun altool --upload-app -t ios -f build/ios/ipa/*.ipa -u "$APP_STORE_CONNECT_USERNAME" -p "$APP_STORE_CONNECT_PASSWORD"
+          
 
       #- name: Build resolve Swift dependencies
       #  run: xcodebuild -resolvePackageDependencies -workspace ios/Runner.xcworkspace -scheme "prod" -configuration "Release-prod"
@@ -126,9 +140,9 @@ jobs:
          # Path to the release files
        #  path: build/prod/ipa/*.ipa
        
-      - name: Build xArchive
-        run: |
-          xcodebuild -workspace ios/Runner.xcworkspace -scheme prod -configuration Release -sdk 'iphoneos' -destination 'generic/platform=iOS' -archivePath build-output/app.xcarchive clean archive -allowProvisioningUpdates
+#       - name: Build xArchive
+#         run: |
+#           xcodebuild -workspace ios/Runner.xcworkspace -scheme prod -configuration Release -sdk 'iphoneos' -destination 'generic/platform=iOS' -archivePath build-output/app.xcarchive clean archive -allowProvisioningUpdates
 #       - name: Export ipa
 #         run: xcodebuild -exportArchive -archivePath build-output/app.xcarchive -exportPath build-output/ios -exportOptionsPlist ios/ExportOptions.plist
        
