@@ -11,15 +11,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
     
-      - name: Microsoft Teams Notification
-        uses: skitionek/notify-microsoft-teams@master
-        if: always()
+      - name: Notify dedicated teams channel
+        uses: jdcargile/ms-teams-notification@v1.3
         with:
-          webhook_url: ${{ secrets.TEAM_HOOK }}
-          needs: ${{ toJson(needs) }}
-          job: ${{ toJson(job) }}
-          steps: ${{ toJson(steps) }}
-          dry_run: true
+          github-token: ${{ github.token }} # this will use the runner's token.
+          ms-teams-webhook-uri: ${{ secrets.TEAM_HOOK }}
+          notification-summary: Your custom notification message 
+          notification-color: 17a2b8
+          timezone: America/Denver
         
 #       - name: Install Apple Certificate
 #         uses: apple-actions/import-codesign-certs@v1
