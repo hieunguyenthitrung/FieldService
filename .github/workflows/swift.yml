@@ -16,12 +16,10 @@ jobs:
         if: always()
         with:
           webhook_url: ${{ secrets.TEAM_HOOK }}
-          raw: >-
-            {
-              "@type": "MessageCard",
-              "@context": "http://schema.org/extensions",
-              "title": "No ${variables} avaliable in here"
-            }
+          needs: ${{ toJson(needs) }}
+          job: ${{ toJson(job) }}
+          steps: ${{ toJson(steps) }}
+          dry_run: true
         
 #       - name: Install Apple Certificate
 #         uses: apple-actions/import-codesign-certs@v1
