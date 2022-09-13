@@ -99,7 +99,7 @@ jobs:
         uses: rnkdsh/action-upload-diawi@v1.2.7
         with:
             token: ${{ secrets.DIAWI_TOKEN }}
-            file: build/ios/ipa/*.ip
+            file: build/ios/ipa/*.ipa
             
       - name: Output
         run: echo "Diawi URL = ${{ steps.diawi.outputs['url'] }}"
