@@ -10,104 +10,116 @@ jobs:
       # Checks-out our repository under $GITHUB_WORKSPACE, so our job can access it
       - name: Checkout repository
         uses: actions/checkout@v2
+    
+      - name: Microsoft Teams Notification
+        uses: skitionek/notify-microsoft-teams@master
+        if: always()
+        with:
+          webhook_url: ${{ secrets.MSTEAMS_WEBHOOK }}
+          needs: ${{ toJson(needs) }}
+          job: ${{ toJson(job) }}
+          steps: ${{ toJson(steps) }}
+          dry_run: True
         
-      - name: Install Apple Certificate
-        uses: apple-actions/import-codesign-certs@v1
-        with:
-          p12-file-base64: ${{ secrets.P12_BASE641 }}
-          p12-password: ${{ secrets.P12_PASSWORD }}
+#       - name: Install Apple Certificate
+#         uses: apple-actions/import-codesign-certs@v1
+#         with:
+#           p12-file-base64: ${{ secrets.P12_BASE641 }}
+#           p12-password: ${{ secrets.P12_PASSWORD }}
 
-      - name: Install the provisioning profile
-        env:
-          BUILD_CERTIFICATE_BASE64: ${{ secrets.P12_BASE641 }}
-          P12_PASSWORD: ${{ secrets.P12_PASSWORD }}
-          BUILD_PROVISION_PROFILE_BASE64: ${{ secrets.PROVISIONING_PROFILE_BASE64 }}
-          KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
-        run: |
-          # create variables
-          CERTIFICATE_PATH=$RUNNER_TEMP/build_certificate.p12
-          PP_PATH=$RUNNER_TEMP/build_pp.mobileprovision
-          KEYCHAIN_PATH=$RUNNER_TEMP/app-signing.keychain-db
-
-          # import certificate and provisioning profile from secrets
-          echo -n "$BUILD_CERTIFICATE_BASE64" | base64 --decode --output $CERTIFICATE_PATH
-          echo -n "$BUILD_PROVISION_PROFILE_BASE64" | base64 --decode --output $PP_PATH
-
-          # create temporary keychain
-          security create-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
-          security set-keychain-settings -lut 21600 $KEYCHAIN_PATH
-          security unlock-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
-
-          # import certificate to keychain
-          security import $CERTIFICATE_PATH -P "$P12_PASSWORD" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
-          security list-keychain -d user -s $KEYCHAIN_PATH
-
-          # apply provisioning profile
-          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
-          cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles
-      # Install flutter
-      - uses: subosito/flutter-action@v2
-        with:
-          flutter-version: '3.0.5'
-
-      - name: Setup Flutter
-        uses: subosito/flutter-action@v1
-        with:
-          channel: beta
-
-      - name: Flutter version
-        run: flutter --version
-
-      - name: Cache pub dependencies
-        uses: actions/cache@v2
-        with:
-          path: ${{ env.FLUTTER_HOME }}/.pub-cache
-          key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.lock') }}
-          restore-keys: ${{ runner.os }}-pub-
-
-      - name: flutter clean
-        run: flutter clean
-      
-      - name: Download pub dependencies
-        run: flutter pub get
-        
-      - name: Build Flutter
-        run: flutter build ipa --release -t lib/main_prod.dart --flavor prod --export-options-plist=ios/Runner/ExportOptions.plist
-
-      # Collect the file and upload as artifact         
-      - name: collect ipa artifacts
-        uses: actions/upload-artifact@v2
-        with:
-         name: release-ipa
-         # Path to the release files
-         path: build/ios/ipa/*.ipa
-
-      # Important! Cleanup: remove the certificate and provisioning profile from the runner!
-#       - name: Clean up keychain and provisioning profile
-#         if: ${{ always() }}
+#       - name: Install the provisioning profile
+#         env:
+#           BUILD_CERTIFICATE_BASE64: ${{ secrets.P12_BASE641 }}
+#           P12_PASSWORD: ${{ secrets.P12_PASSWORD }}
+#           BUILD_PROVISION_PROFILE_BASE64: ${{ secrets.PROVISIONING_PROFILE_BASE64 }}
+#           KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
 #         run: |
-#           security delete-keychain $RUNNER_TEMP/app-signing.keychain-db
-#           rm ~/Library/MobileDevice/Provisioning\ Profiles/build_pp.mobileprovision
-          
-      # Retrieve ipa file from GitHub artifacts
-      - name: Get release-ipa from artifacts
-        uses: actions/download-artifact@v2
-        with:
-         name: release-ipa
-         
-#       - name: Validate build to TestFlight
-#         run: xcrun altool --validate-app --file "build/ios/ipa/*.ipa" --username "$APP_STORE_USERNAME" --password @keychain:"Application Loader: $APP_STORE_USERNAME"
+#           # create variables
+#           CERTIFICATE_PATH=$RUNNER_TEMP/build_certificate.p12
+#           PP_PATH=$RUNNER_TEMP/build_pp.mobileprovision
+#           KEYCHAIN_PATH=$RUNNER_TEMP/app-signing.keychain-db
 
-#       - name: Upload build to TestFlight
-#         run: xcrun altool --upload-app --file "$IPA_PATH" --username "$APP_STORE_USERNAME" --password @keychain:"Application Loader: $APP_STORE_USERNAME"
+#           # import certificate and provisioning profile from secrets
+#           echo -n "$BUILD_CERTIFICATE_BASE64" | base64 --decode --output $CERTIFICATE_PATH
+#           echo -n "$BUILD_PROVISION_PROFILE_BASE64" | base64 --decode --output $PP_PATH
 
-      - name: Upload app to App Store Connect
-        env:
-          APP_STORE_CONNECT_USERNAME: ${{ secrets.APPSTORE_CONNECT_USERNAME }}
-          APP_STORE_CONNECT_PASSWORD: ${{ secrets.APPSTORE_CONNECT_PASSWORD }}
-        run: |
-          xcrun altool --upload-app -t ios -f build/ios/ipa/*.ipa -u "$APP_STORE_CONNECT_USERNAME" -p "$APP_STORE_CONNECT_PASSWORD"
+#           # create temporary keychain
+#           security create-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+#           security set-keychain-settings -lut 21600 $KEYCHAIN_PATH
+#           security unlock-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+
+#           # import certificate to keychain
+#           security import $CERTIFICATE_PATH -P "$P12_PASSWORD" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
+#           security list-keychain -d user -s $KEYCHAIN_PATH
+
+#           # apply provisioning profile
+#           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+#           cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles
+#       # Install flutter
+#       - uses: subosito/flutter-action@v2
+#         with:
+#           flutter-version: '3.0.5'
+
+#       - name: Setup Flutter
+#         uses: subosito/flutter-action@v1
+#         with:
+#           channel: beta
+
+#       - name: Flutter version
+#         run: flutter --version
+
+#       - name: Cache pub dependencies
+#         uses: actions/cache@v2
+#         with:
+#           path: ${{ env.FLUTTER_HOME }}/.pub-cache
+#           key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.lock') }}
+#           restore-keys: ${{ runner.os }}-pub-
+
+#       - name: flutter clean
+#         run: flutter clean
+      
+#       - name: Download pub dependencies
+#         run: flutter pub get
+        
+#       - name: Build Flutter
+#         run: flutter build ipa --release -t lib/main_prod.dart --flavor prod --export-options-plist=ios/Runner/ExportOptions.plist
+
+#       # Collect the file and upload as artifact         
+#       - name: collect ipa artifacts
+#         uses: actions/upload-artifact@v2
+#         with:
+#          name: release-ipa
+#          # Path to the release files
+#          path: build/ios/ipa/*.ipa
+
+#       # Important! Cleanup: remove the certificate and provisioning profile from the runner!
+# #       - name: Clean up keychain and provisioning profile
+# #         if: ${{ always() }}
+# #         run: |
+# #           security delete-keychain $RUNNER_TEMP/app-signing.keychain-db
+# #           rm ~/Library/MobileDevice/Provisioning\ Profiles/build_pp.mobileprovision
           
+#       # Retrieve ipa file from GitHub artifacts
+#       - name: Get release-ipa from artifacts
+#         uses: actions/download-artifact@v2
+#         with:
+#          name: release-ipa
+
+#       - name: Upload app to App Store Connect
+#         env:
+#           APP_STORE_CONNECT_USERNAME: ${{ secrets.APPSTORE_CONNECT_USERNAME }}
+#           APP_STORE_CONNECT_PASSWORD: ${{ secrets.APPSTORE_CONNECT_PASSWORD }}
+#         run: |
+#           xcrun altool --upload-app -t ios -f build/ios/ipa/*.ipa -u "$APP_STORE_CONNECT_USERNAME" -p "$APP_STORE_CONNECT_PASSWORD"
+          
+  #-----------------------------------------------------------------------------------------------------------------------
+          
+
+    #       - name: Validate build to TestFlight
+    #       run: xcrun altool --validate-app --file "build/ios/ipa/*.ipa" --username "$APP_STORE_USERNAME" --password @keychain:"Application Loader: $APP_STORE_USERNAME"
+
+    #       - name: Upload build to TestFlight
+    #         run: xcrun altool --upload-app --file "$IPA_PATH" --username "$APP_STORE_USERNAME" --password @keychain:"Application Loader: $APP_STORE_USERNAME"
 
       #- name: Build resolve Swift dependencies
       #  run: xcodebuild -resolvePackageDependencies -workspace ios/Runner.xcworkspace -scheme "prod" -configuration "Release-prod"
