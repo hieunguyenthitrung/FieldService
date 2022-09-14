@@ -69,7 +69,7 @@ def main():
         events = 0
 
         def upload_callback(monitor):
-            nonlocal events
+            
             events += 1
             if events % 10 == 0:
                 print("\r{0:>9s} / {1:9s} [{2:2.0f}%]".format(
