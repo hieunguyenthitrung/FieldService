@@ -81,6 +81,7 @@ jobs:
          path: build/app/outputs/flutter-apk/app-prod-release.apk
      
       - name: Upload APK to Diawii
+        id: diawi
         env: 
           GITHUB_TOKEN : ${{ github.token }}
           DIAWI_TOKEN: ${{ secrets.DIAWI_TOKEN }}
