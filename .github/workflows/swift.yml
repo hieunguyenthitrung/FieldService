@@ -80,7 +80,7 @@ jobs:
         with:
          name: release-ipa
          # Path to the release files
-         path: build/ios/ipa/field_services.ipa
+         path: build/ios/ipa/*.ipa
 
       # Important! Cleanup: remove the certificate and provisioning profile from the runner!
 #       - name: Clean up keychain and provisioning profile
@@ -109,7 +109,7 @@ jobs:
         uses: rnkdsh/action-upload-diawi@v1.2.7
         with:
           token: ${{ secrets.DIAWI_TOKEN }}
-          file: ./build/ios/ipa/field_services.ipa
+          file: ./build/ios/ipa/*.ipa
           comment: ${{ github.event.head_commit.message }}
             
       - name: Output
