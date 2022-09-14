@@ -90,10 +90,10 @@ jobs:
 #           rm ~/Library/MobileDevice/Provisioning\ Profiles/build_pp.mobileprovision
           
       # Retrieve ipa file from GitHub artifacts
-      - name: Get release-ipa from artifacts
-        uses: actions/download-artifact@v3
-        with:
-         name: release-ipa
+#       - name: Get release-ipa from artifacts
+#         uses: actions/download-artifact@v3
+#         with:
+#          name: release-ipa
       
 #       - name: Upload APK to Diawii
 #         uses: rnkdsh/action-upload-diawi@v1.2.7
@@ -101,9 +101,16 @@ jobs:
 #           token: ${{ secrets.DIAWI_TOKEN }}
 #           file: ./build/ios/ipa/field_services.ipa
 
-      - name: Upload app to Diawi
-        run: |
-          python diawi_uploader.py --token ${{ secrets.DIAWI_TOKEN }} --qr ./build/ios/ipa/field_services.ipa
+      - name: Upload APK to Diawii
+        id: diawi
+        env: 
+          GITHUB_TOKEN : ${{ github.token }}
+          DIAWI_TOKEN: ${{ secrets.DIAWI_TOKEN }}
+        uses: rnkdsh/action-upload-diawi@v1.1.0
+        with:
+          token: ${{ secrets.DIAWI_TOKEN }}
+          file: ./build/ios/ipa/field_services.ipa
+          comment: ${{ github.event.head_commit.message }}
             
       - name: Output
         run: echo "Diawi URL = ${{ steps.diawi.outputs['url'] }}"
