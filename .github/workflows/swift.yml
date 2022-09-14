@@ -94,14 +94,12 @@ jobs:
         uses: actions/download-artifact@v3
         with:
          name: release-ipa
-         
+      
       - name: Upload APK to Diawii
         uses: rnkdsh/action-upload-diawi@v1.2.7
         with:
           token: ${{ secrets.DIAWI_TOKEN }}
           file: ./build/ios/ipa/field_services.ipa
-          comment: ${{ github.event.head_commit.message }}
-            
             
       - name: Output
         run: echo "Diawi URL = ${{ steps.diawi.outputs['url'] }}"
