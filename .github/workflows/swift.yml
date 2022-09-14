@@ -101,11 +101,12 @@ jobs:
       - name: 'Echo download path'
         run: echo ${{steps.download.outputs.download-path}}
          
-      - name: Diawi
-        uses: rnkdsh/action-upload-diawi@v1.2.7
+      - name: Upload APK to Diawii
+        uses: rnkdsh/action-upload-diawi@v1.1.0
         with:
-            token: ${{ secrets.DIAWI_TOKEN }}
-            file: ~/download/path/release-ipa.ipa
+          token: ${{ secrets.DIAWI_TOKEN }}
+          file: .build/ios/ipa/*.ipa
+          comment: ${{ github.event.head_commit.message }}
             
             
       - name: Output
