@@ -67,21 +67,24 @@ jobs:
           echo "keyPassword=${{ secrets.ANDROID_KEY_PASSWORD }}" >> android/key.properties
           echo "keyAlias=${{ secrets.ANDROID_KEY_ALIAS }}" >> android/key.properties
 
+#       - name: Build Android App Bundle
+#         run: flutter build appbundle --release -t lib/main_prod.dart --flavor prod
+
       - name: Build Android App Bundle
-        run: flutter build appbundle --release -t lib/main_prod.dart --flavor prod
+        run: flutter build apk --release -t lib/main_prod.dart --flavor prod
         
       - name: collect ipa artifacts
         uses: actions/upload-artifact@v3
         with:
          name: release-apk
          # Path to the release files
-         path: /app/build/outputs/apk/release/field_services.apk
+         path: build/app/outputs/bundle/prodRelease/app-prod-release.apk
      
       - name: Upload APK to Diawii
         uses: rnkdsh/action-upload-diawi@v1.1.0
         with:
           token: ${{ secrets.DIAWI_TOKEN }}
-          file: ./app/build/outputs/apk/release/field_services.apk
+          file: ./build/app/outputs/bundle/prodRelease/app-prod-release.aab.apk
           comment: ${{ github.event.head_commit.message }}
          
       - name: Output
