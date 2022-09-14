@@ -5,9 +5,7 @@
 
 name: Flutter release
 
-on:
-  pull:
-    branches: [ "main" ]
+on: workflow_dispatch
 
 jobs:
   build:
@@ -71,12 +69,39 @@ jobs:
 
       - name: Build Android App Bundle
         run: flutter build appbundle --release -t lib/main_prod.dart --flavor prod
-
-      - name: Deploy to Play Store
-        uses: r0adkll/upload-google-play@v1.0.17
+        
+      - name: collect ipa artifacts
+        uses: actions/upload-artifact@v3
         with:
-          serviceAccountJsonPlainText: ${{secrets.GOOGLE_SERVICE_ACCOUNT_KEY}}
-          packageName: ${{ secrets.ANDROID_PACKAGE_NAME }}
-          releaseFiles: build/app/outputs/bundle/prodRelease/app-prod-release.aab
-          track: internal
-          status: draft 
+         name: release-apk
+         # Path to the release files
+         path: /app/build/outputs/apk/release/field_services.apk
+     
+      - name: Upload APK to Diawii
+        uses: rnkdsh/action-upload-diawi@v1.1.0
+        with:
+          token: ${{ secrets.DIAWI_TOKEN }}
+          file: ./app/build/outputs/apk/release/field_services.apk
+          comment: ${{ github.event.head_commit.message }}
+         
+      - name: Output
+        run: echo "Diawi URL = ${{ steps.diawi.outputs['url'] }}"
+        
+      - name: Notify dedicated teams channel
+        uses: jdcargile/ms-teams-notification@v1.3
+        with:
+          github-token: ${{ github.token }} # this will use the runner's token.
+          ms-teams-webhook-uri: ${{ secrets.TEAM_HOOK }}
+          notification-summary: "Diawi URL = ${{ steps.diawi.outputs['url'] }}"
+          notification-color: 17a2b8
+          timezone: America/Denver   
+         
+
+#       - name: Deploy to Play Store
+#         uses: r0adkll/upload-google-play@v1.0.17
+#         with:
+#           serviceAccountJsonPlainText: ${{secrets.GOOGLE_SERVICE_ACCOUNT_KEY}}
+#           packageName: ${{ secrets.ANDROID_PACKAGE_NAME }}
+#           releaseFiles: build/app/outputs/bundle/prodRelease/app-prod-release.aab
+#           track: internal
+#           status: draft 
