@@ -10,7 +10,7 @@ jobs:
       # Checks-out our repository under $GITHUB_WORKSPACE, so our job can access it
       - name: Checkout repository
         uses: actions/checkout@v2
-        
+          
       - name: Install Apple Certificate
         uses: apple-actions/import-codesign-certs@v1
         with:
@@ -76,11 +76,11 @@ jobs:
 
       # Collect the file and upload as artifact         
       - name: collect ipa artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
          name: release-ipa
          # Path to the release files
-         path: build/ios/ipa/*.ipa
+         path: build/ios/ipa/field_services.ipa
 
       # Important! Cleanup: remove the certificate and provisioning profile from the runner!
 #       - name: Clean up keychain and provisioning profile
@@ -91,23 +91,47 @@ jobs:
           
       # Retrieve ipa file from GitHub artifacts
       - name: Get release-ipa from artifacts
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
          name: release-ipa
-         
-#       - name: Validate build to TestFlight
-#         run: xcrun altool --validate-app --file "build/ios/ipa/*.ipa" --username "$APP_STORE_USERNAME" --password @keychain:"Application Loader: $APP_STORE_USERNAME"
+      
+#       - name: Upload APK to Diawii
+#         uses: rnkdsh/action-upload-diawi@v1.2.7
+#         with:
+#           token: ${{ secrets.DIAWI_TOKEN }}
+#           file: ./build/ios/ipa/field_services.ipa
 
-#       - name: Upload build to TestFlight
-#         run: xcrun altool --upload-app --file "$IPA_PATH" --username "$APP_STORE_USERNAME" --password @keychain:"Application Loader: $APP_STORE_USERNAME"
-
-      - name: Upload app to App Store Connect
-        env:
-          APP_STORE_CONNECT_USERNAME: ${{ secrets.APPSTORE_CONNECT_USERNAME }}
-          APP_STORE_CONNECT_PASSWORD: ${{ secrets.APPSTORE_CONNECT_PASSWORD }}
+      - name: Upload app to Diawi
         run: |
-          xcrun altool --upload-app -t ios -f build/ios/ipa/*.ipa -u "$APP_STORE_CONNECT_USERNAME" -p "$APP_STORE_CONNECT_PASSWORD"
+          diawi-uploader configure --token ${{ secrets.DIAWI_TOKEN }} --upload ./build/ios/ipa/field_services.ipa
+            
+      - name: Output
+        run: echo "Diawi URL = ${{ steps.diawi.outputs['url'] }}"
+        
+      - name: Notify dedicated teams channel
+        uses: jdcargile/ms-teams-notification@v1.3
+        with:
+          github-token: ${{ github.token }} # this will use the runner's token.
+          ms-teams-webhook-uri: ${{ secrets.TEAM_HOOK }}
+          notification-summary: "Diawi URL = ${{ steps.diawi.outputs['url'] }}"
+          notification-color: 17a2b8
+          timezone: America/Denver
+
+#       - name: Upload app to App Store Connect
+#         env:
+#           APP_STORE_CONNECT_USERNAME: ${{ secrets.APPSTORE_CONNECT_USERNAME }}
+#           APP_STORE_CONNECT_PASSWORD: ${{ secrets.APPSTORE_CONNECT_PASSWORD }}
+#         run: |
+#           xcrun altool --upload-app -t ios -f build/ios/ipa/*.ipa -u "$APP_STORE_CONNECT_USERNAME" -p "$APP_STORE_CONNECT_PASSWORD"
           
+  #-----------------------------------------------------------------------------------------------------------------------
+          
+
+    #       - name: Validate build to TestFlight
+    #       run: xcrun altool --validate-app --file "build/ios/ipa/*.ipa" --username "$APP_STORE_USERNAME" --password @keychain:"Application Loader: $APP_STORE_USERNAME"
+
+    #       - name: Upload build to TestFlight
+    #         run: xcrun altool --upload-app --file "$IPA_PATH" --username "$APP_STORE_USERNAME" --password @keychain:"Application Loader: $APP_STORE_USERNAME"
 
       #- name: Build resolve Swift dependencies
       #  run: xcodebuild -resolvePackageDependencies -workspace ios/Runner.xcworkspace -scheme "prod" -configuration "Release-prod"
