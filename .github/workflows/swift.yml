@@ -74,12 +74,6 @@ jobs:
       - name: Build Flutter
         run: flutter build ipa --release -t lib/main_prod.dart --flavor prod --export-options-plist=ios/Runner/ExportOptions.plist
 
-      - name: Diawi
-        uses: rnkdsh/action-upload-diawi@v1.2.7
-        with:
-            token: ${{ secrets.DIAWI_TOKEN }}
-            file: build/ios/ipa/*.ipa
-            
       # Collect the file and upload as artifact         
       - name: collect ipa artifacts
         uses: actions/upload-artifact@v3
@@ -97,9 +91,17 @@ jobs:
           
       # Retrieve ipa file from GitHub artifacts
       - name: Get release-ipa from artifacts
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
          name: release-ipa
+         path: ~/download/path
+         
+      - name: Diawi
+        uses: rnkdsh/action-upload-diawi@v1.2.7
+        with:
+            token: ${{ secrets.DIAWI_TOKEN }}
+            file: ~/download/path/release-ipa.ipa
+            
             
       - name: Output
         run: echo "Diawi URL = ${{ steps.diawi.outputs['url'] }}"
