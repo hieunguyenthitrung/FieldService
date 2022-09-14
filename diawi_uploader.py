@@ -75,7 +75,7 @@ def main():
                 print("\r{0:>9s} / {1:9s} [{2:2.0f}%]".format(
                         bytes_to_str(monitor.bytes_read),
                         bytes_to_str(monitor.len),
-                        monitor.bytes_read / monitor.len * 100), flush=True)
+                        monitor.bytes_read / monitor.len * 100))
 
         multipart_encoder_monitor = MultipartEncoderMonitor(multipart_encoder, upload_callback)
 
