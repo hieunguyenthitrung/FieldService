@@ -96,6 +96,9 @@ jobs:
          name: release-ipa
          path: ~/download/path
          
+      - name: 'Echo download path'
+        run: echo ${{steps.download.outputs.download-path}}
+         
       - name: Diawi
         uses: rnkdsh/action-upload-diawi@v1.2.7
         with:
