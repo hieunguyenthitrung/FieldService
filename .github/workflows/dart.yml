@@ -78,13 +78,16 @@ jobs:
         with:
          name: release-apk
          # Path to the release files
-         path: build/app/outputs/bundle/prodRelease/app-prod-release.apk
+         path: build/app/outputs/flutter-apk/app-prod-release.apk
      
       - name: Upload APK to Diawii
+        env: 
+          GITHUB_TOKEN : ${{ github.token }}
+          DIAWI_TOKEN: ${{ secrets.DIAWI_TOKEN }}
         uses: rnkdsh/action-upload-diawi@v1.1.0
         with:
           token: ${{ secrets.DIAWI_TOKEN }}
-          file: ./build/app/outputs/bundle/prodRelease/app-prod-release.aab.apk
+          file: ./build/app/outputs/flutter-apk/app-prod-release.apk
           comment: ${{ github.event.head_commit.message }}
          
       - name: Output
