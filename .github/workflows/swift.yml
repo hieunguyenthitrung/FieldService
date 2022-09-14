@@ -94,7 +94,9 @@ jobs:
         uses: actions/download-artifact@v3
         with:
          name: release-ipa
-         path: ~/download/path
+  
+      - name: Display structure of downloaded files
+        run: ls -R
          
       - name: 'Echo download path'
         run: echo ${{steps.download.outputs.download-path}}
