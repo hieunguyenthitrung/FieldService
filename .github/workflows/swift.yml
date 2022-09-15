@@ -106,11 +106,12 @@ jobs:
         env: 
           GITHUB_TOKEN : ${{ github.token }}
           DIAWI_TOKEN: ${{ secrets.DIAWI_TOKEN }}
-        uses: rnkdsh/action-upload-diawi@v1.2.7
-        with:
-          token: ${{ secrets.DIAWI_TOKEN }}
-          file: ./build/ios/ipa/field_services.ipa
-          comment: ${{ github.event.head_commit.message }}
+        run: |
+            diawi_uploader upload_ipa_with_parameters token=${{ secrets.DIAWI_TOKEN }} path=./build/ios/ipa/field_services.ipa
+#         with:
+#           token: ${{ secrets.DIAWI_TOKEN }}
+#           file: ./build/ios/ipa/field_services.ipa
+#           comment: ${{ github.event.head_commit.message }}
             
       - name: Output
         run: echo "Diawi URL = ${{ steps.diawi.outputs['url'] }}"
