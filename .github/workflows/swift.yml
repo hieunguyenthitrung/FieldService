@@ -109,7 +109,7 @@ jobs:
         uses: rnkdsh/action-upload-diawi@v1.2.7
         with:
           token: ${{ secrets.DIAWI_TOKEN }}
-          file: ./build/ios/ipa/*.ipa
+          file: ./build/ios/ipa/field_services.ipa
           comment: ${{ github.event.head_commit.message }}
             
       - name: Output
