@@ -106,7 +106,7 @@ jobs:
         env: 
           GITHUB_TOKEN : ${{ github.token }}
           DIAWI_TOKEN: ${{ secrets.DIAWI_TOKEN }}
-        run: diawi_uploader.rb token ${{ secrets.DIAWI_TOKEN }} path ./build/ios/ipa/field_services.ipa
+        run: diawi_uploader token ${{ secrets.DIAWI_TOKEN }} path ./build/ios/ipa/field_services.ipa
 #         with:
 #           token: ${{ secrets.DIAWI_TOKEN }}
 #           file: ./build/ios/ipa/field_services.ipa
