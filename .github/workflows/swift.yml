@@ -106,11 +106,11 @@ jobs:
         env: 
           GITHUB_TOKEN : ${{ github.token }}
           DIAWI_TOKEN: ${{ secrets.DIAWI_TOKEN }}
-        uses: yurapriv/DiawiUploader@v1
-        with:
-          token: ${{ secrets.DIAWI_TOKEN }}
-          file: ./build/ios/ipa/field_services.ipa
-#           comment: ${{ github.event.head_commit.message }}
+        run: diawi_uploader.rb token ${{ secrets.DIAWI_TOKEN }} path ./build/ios/ipa/field_services.ipa
+#         with:
+#           token: ${{ secrets.DIAWI_TOKEN }}
+#           file: ./build/ios/ipa/field_services.ipa
+# #           comment: ${{ github.event.head_commit.message }}
             
       - name: Output
         run: echo "Diawi URL = ${{ steps.diawi.outputs['url'] }}"
