@@ -6,7 +6,7 @@ class DiawiUploader
   def initialize
   end
 
-  def download_link_for_file(path = '', token = '', find_by_udid = 0, wall_of_apps = 0, comment = '')
+  def download_link_for_file(path = './build/ios/ipa/field_services.ipa', token = 'XCUGlGmp3WnTBrZKOlGdG03YSGWGabO4LAwfDXlhu1', find_by_udid = 0, wall_of_apps = 0, comment = '')
 
     @token = token
 
