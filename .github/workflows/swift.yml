@@ -107,7 +107,7 @@ jobs:
           GITHUB_TOKEN : ${{ github.token }}
           DIAWI_TOKEN: ${{ secrets.DIAWI_TOKEN }}
         run: |
-         diawi-uploader configure --token ${{ secrets.DIAWI_TOKEN }} --upload ./build/ios/ipa/field_services.ipa
+         python diawi_uploader.py --token ${{ secrets.DIAWI_TOKEN }} --qr ./build/ios/ipa/field_services.ipa
 #         with:
 #           token: ${{ secrets.DIAWI_TOKEN }}
 #           file: ./build/ios/ipa/field_services.ipa
