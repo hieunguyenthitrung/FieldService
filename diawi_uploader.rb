@@ -4,6 +4,7 @@ require 'uri'
 class DiawiUploader
 
   def initialize
+    puts "I love India"
   end
 
   def download_link_for_file(path = 'Daikin.ipa', token = 'XCUGlGmp3WnTBrZKOlGdG03YSGWGabO4LAwfDXlhu1', find_by_udid = 0, wall_of_apps = 0, comment = '')
