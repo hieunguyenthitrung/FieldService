@@ -108,3 +108,6 @@ class DiawiUploader
   end
 
 end
+
+# initialize object
+DiawiUploader.new
