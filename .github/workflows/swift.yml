@@ -103,7 +103,7 @@ jobs:
 
       - name: Upload APK to Diawii
         id: diawi
-        uses: bushbaby/diawi-uploader@v0.1.4
+        uses: bushbaby/diawi-uploader@0.1.4
         with:
             token: ${{ secrets.DIAWI_TOKEN }}
             upload: ./build/ios/ipa/field_services.ipa
