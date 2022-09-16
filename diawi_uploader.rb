@@ -4,13 +4,11 @@ require 'uri'
 class DiawiUploader
 
   def initialize
-    puts "AAAAAAA"
   end
 
-  def download_link_for_file(path = 'Daikin.ipa', token = 'XCUGlGmp3WnTBrZKOlGdG03YSGWGabO4LAwfDXlhu1', find_by_udid = 0, wall_of_apps = 0, comment = '')
+  def self.download_link_for_file(path = '', token = '', find_by_udid = 0, wall_of_apps = 0, comment = '')
 
     @token = token
-    puts "I love India"
     result = {}
     result[:link] = 'NO LINK'
     result[:message] = 'NO MESSAGE'
@@ -46,7 +44,7 @@ class DiawiUploader
     result
   end
 
-  def get_download_link(job)
+  def self.get_download_link(job)
 
     download_link = 'NO LINK'
 
@@ -81,7 +79,7 @@ class DiawiUploader
     download_link
   end
 
-  def upload_ipa_with_parameters(params)
+  def self.upload_ipa_with_parameters(params)
     upload_response = `curl https://upload.diawi.com/ -F token='#{@token}' -F file=@#{params[:path]} -F find_by_udid=#{params[:find_by_udid]} -F wall_of_apps=#{params[:wall]} -F comment='#{params[:comment]}'`
     puts "upload_response = #{upload_response}"
     if is_json?(upload_response)
@@ -90,7 +88,7 @@ class DiawiUploader
     nil
   end
 
-  def request_status_for_job_id(job_id)
+  def self.request_status_for_job_id(job_id)
     status_response = `curl 'https://upload.diawi.com/status?token=#{@token}&job=#{job_id}'`
     puts "status_response = #{status_response}"
     if is_json?(status_response)
@@ -99,7 +97,7 @@ class DiawiUploader
     nil
   end
 
-  def is_json?(string)
+  def self.is_json?(string)
     begin
       JSON.parse(string)
     rescue JSON::ParserError => e

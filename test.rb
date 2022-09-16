@@ -1,3 +1,5 @@
+
+
 class Test 
   def initialize
    puts "I love India"
@@ -5,7 +7,7 @@ class Test
   
   def self.test_function(someVar)
         puts "I got the following variable: " + someVar
-    end
+  end
 end
 
 # initialize object
