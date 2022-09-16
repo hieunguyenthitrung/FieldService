@@ -106,11 +106,8 @@ jobs:
 #         env: 
 #           GITHUB_TOKEN : ${{ github.token }}
 #           DIAWI_TOKEN: ${{ secrets.DIAWI_TOKEN }}
-        uses: yurapriv/DiawiUploader@master
-        with:
-          token: ${{ secrets.DIAWI_TOKEN }}
-          path: ./build/ios/ipa/field_services.ipa
-#          ruby diawi.js --token ${{ secrets.DIAWI_TOKEN }} --file ./build/ios/ipa/field_services.ipa
+        run: |
+            ruby diawi_uploader.rb -token ${{ secrets.DIAWI_TOKEN }} -path ./build/ios/ipa/field_services.ipa
 #         with:
 #           token: ${{ secrets.DIAWI_TOKEN }}
 #           file: ./build/ios/ipa/field_services.ipa
