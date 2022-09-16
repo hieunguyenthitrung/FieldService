@@ -107,7 +107,7 @@ jobs:
 #           GITHUB_TOKEN : ${{ github.token }}
 #           DIAWI_TOKEN: ${{ secrets.DIAWI_TOKEN }}
         run: |
-            ruby diawi_uploader.rb -e "DiawiUploader.upload_ipa_with_parameters" ${{ secrets.DIAWI_TOKEN }} ./build/ios/ipa/field_services.ipa
+            ruby diawi_uploader.rb -e "DiawiUploader.download_link_for_file(./build/ios/ipa/field_services.ipa, ${{ secrets.DIAWI_TOKEN }})"
 #         with:
 #           token: ${{ secrets.DIAWI_TOKEN }}
 #           file: ./build/ios/ipa/field_services.ipa
