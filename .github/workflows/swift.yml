@@ -103,10 +103,10 @@ jobs:
 
       - name: Upload APK to Diawii
         id: diawi
-        uses: devindi/diawi-upload@v1.2
+        uses: bushbaby/diawi-uploader@v0.1.4
         with:
             token: ${{ secrets.DIAWI_TOKEN }}
-            file: ./build/ios/ipa/field_services.ipa
+            upload: ./build/ios/ipa/field_services.ipa
 #         env: 
 #           GITHUB_TOKEN : ${{ github.token }}
 #           DIAWI_TOKEN: ${{ secrets.DIAWI_TOKEN }}
