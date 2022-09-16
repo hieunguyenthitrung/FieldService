@@ -114,7 +114,7 @@ jobs:
 # #           comment: ${{ github.event.head_commit.message }}
             
       - name: Output
-        run: echo "Diawi URL = ${{ steps.diawi.outputs['url'] }}"
+        run: echo "Diawi URL = ${{ steps.diawi.outputs['links'] }}"
         
       - name: Notify dedicated teams channel
         uses: jdcargile/ms-teams-notification@v1.3
