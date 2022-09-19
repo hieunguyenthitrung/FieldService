@@ -73,8 +73,11 @@ jobs:
         
       - name: Build xArchive
         run: |
-         xcodebuild  -exportArchive -archivePath build-output/app.xcarchive -exportOptionsPlist ios/Runner/ExportOptions.plist
-           -exportPath build-output/app.xcarchive -allowProvisioningUpdates
+         xcodebuild archive \
+            -workspace "Runner.xcworkspace" \
+            -configuration Release \
+            -scheme prod \
+            -archivePath build-output/
         
 #       - name: Build Flutter
 #         run: flutter build ipa --release -t lib/main_prod.dart --flavor prod --export-options-plist=ios/Runner/ExportOptions.plist
