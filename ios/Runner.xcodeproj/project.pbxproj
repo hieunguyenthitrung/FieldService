@@ -381,7 +381,7 @@
 		};
 		0467F5CB286AB79F002C71B5 /* Debug-stag */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9740EEB21CF90195004384FC /* Debug.xcconfig */;
+			baseConfigurationReference = 4245B0AC524F37ABA86DB7DB /* Pods-Runner.debug-stag.xcconfig */;
 			buildSettings = {
 				APP_DISPLAY_NAME = DiFieldServices;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -464,7 +464,7 @@
 		};
 		0467F5CD286AB7A2002C71B5 /* Release-stag */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
+			baseConfigurationReference = C361B99EED337E31BC257F84 /* Pods-Runner.release-stag.xcconfig */;
 			buildSettings = {
 				APP_DISPLAY_NAME = DiFieldServices;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -544,7 +544,7 @@
 		};
 		0467F5CF286AB7A4002C71B5 /* Profile-stag */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
+			baseConfigurationReference = D4A81535F95764C1B7A70C86 /* Pods-Runner.profile-stag.xcconfig */;
 			buildSettings = {
 				APP_DISPLAY_NAME = DiFieldServices;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -624,7 +624,7 @@
 		};
 		249021D4217E4FDB00AE95B9 /* Profile-prod */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
+			baseConfigurationReference = E8C6C10459C8E4889B9878F7 /* Pods-Runner.profile-prod.xcconfig */;
 			buildSettings = {
 				APP_DISPLAY_NAME = DiFieldServices;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -762,7 +762,7 @@
 		};
 		97C147061CF9000F007C117D /* Debug-prod */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9740EEB21CF90195004384FC /* Debug.xcconfig */;
+			baseConfigurationReference = F1C2E88D10A5808CA68C20E7 /* Pods-Runner.debug-prod.xcconfig */;
 			buildSettings = {
 				APP_DISPLAY_NAME = DiFieldServices;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -793,7 +793,7 @@
 		};
 		97C147071CF9000F007C117D /* Release-prod */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
+			baseConfigurationReference = 913E2EDA0B83BA7043A5C4BF /* Pods-Runner.release-prod.xcconfig */;
 			buildSettings = {
 				APP_DISPLAY_NAME = DiFieldServices;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
