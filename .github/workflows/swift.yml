@@ -71,8 +71,15 @@ jobs:
       - name: Download pub dependencies
         run: flutter pub get
         
-      - name: Build Flutter
-        run: flutter build ipa --release -t lib/main_prod.dart --flavor prod --export-options-plist=ios/Runner/ExportOptions.plist
+#       - name: Build Flutter
+#         run: flutter build ipa --release -t lib/main_prod.dart --flavor prod --export-options-plist=ios/Runner/ExportOptions.plist
+
+      - name: Build xArchive
+        run: |
+          xcodebuild -workspace ios/Runner.xcworkspace -scheme prod -configuration Release -sdk 'iphoneos' -destination 'generic/platform=iOS' -archivePath build-output/app.xcarchive clean archive -allowProvisioningUpdates
+     
+      - name: Export ipa
+        run: xcodebuild -exportArchive -archivePath build-output/app.xcarchive -exportPath build-output/ios -exportOptionsPlist ios/ExportOptions.plist
 
       # Collect the file and upload as artifact         
       - name: collect ipa artifacts
@@ -80,7 +87,7 @@ jobs:
         with:
          name: release-ipa
          # Path to the release files
-         path: build/ios/ipa/*.ipa
+         path: build-output/ios/*.ipa
 
       # Important! Cleanup: remove the certificate and provisioning profile from the runner!
 #       - name: Clean up keychain and provisioning profile
@@ -101,29 +108,29 @@ jobs:
 #           token: ${{ secrets.DIAWI_TOKEN }}
 #           file: ./build/ios/ipa/field_services.ipa
 
-      - name: Upload APK to Diawii
-        id: diawi
-#         env: 
-#           GITHUB_TOKEN : ${{ github.token }}
-#           DIAWI_TOKEN: ${{ secrets.DIAWI_TOKEN }}
-        run: |
-            ruby -r "./diawi_uploader.rb" -e "DiawiUploader.download_link_for_file 'daikin.ipa','${{ secrets.DIAWI_TOKEN }}'"
-#         with:
-#           token: ${{ secrets.DIAWI_TOKEN }}
-#           file: ./build/ios/ipa/field_services.ipa
-# #           comment: ${{ github.event.head_commit.message }}
+#       - name: Upload APK to Diawii
+#         id: diawi
+# #         env: 
+# #           GITHUB_TOKEN : ${{ github.token }}
+# #           DIAWI_TOKEN: ${{ secrets.DIAWI_TOKEN }}
+#         run: |
+#             ruby -r "./diawi_uploader.rb" -e "DiawiUploader.download_link_for_file 'daikin.ipa','${{ secrets.DIAWI_TOKEN }}'"
+# #         with:
+# #           token: ${{ secrets.DIAWI_TOKEN }}
+# #           file: ./build/ios/ipa/field_services.ipa
+# # #           comment: ${{ github.event.head_commit.message }}
             
-      - name: Output
-        run: echo "Diawi URL = ${{ steps.diawi.outputs['links'] }}"
+#       - name: Output
+#         run: echo "Diawi URL = ${{ steps.diawi.outputs['links'] }}"
         
-      - name: Notify dedicated teams channel
-        uses: jdcargile/ms-teams-notification@v1.3
-        with:
-          github-token: ${{ github.token }} # this will use the runner's token.
-          ms-teams-webhook-uri: ${{ secrets.TEAM_HOOK }}
-          notification-summary: "Diawi URL = ${{ steps.diawi.outputs['url'] }}"
-          notification-color: 17a2b8
-          timezone: America/Denver
+#       - name: Notify dedicated teams channel
+#         uses: jdcargile/ms-teams-notification@v1.3
+#         with:
+#           github-token: ${{ github.token }} # this will use the runner's token.
+#           ms-teams-webhook-uri: ${{ secrets.TEAM_HOOK }}
+#           notification-summary: "Diawi URL = ${{ steps.diawi.outputs['url'] }}"
+#           notification-color: 17a2b8
+#           timezone: America/Denver
 
 #       - name: Upload app to App Store Connect
 #         env:
