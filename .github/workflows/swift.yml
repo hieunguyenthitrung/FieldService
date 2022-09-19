@@ -73,8 +73,8 @@ jobs:
         
       - name: Build xArchive
         run: |
-         xcodebuild -archivePath "./prod - Runner.xcarchive" -exportOptionsPlist ios/Runner/ExportOptions.plist
-           -exportPath build-output/app.xcarchive -allowProvisioningUpdates -exportArchive | xcpretty
+         xcodebuild  -exportArchive -archivePath "./prod - Runner.xcarchive" -exportOptionsPlist ios/Runner/ExportOptions.plist
+           -exportPath build-output/app.xcarchive -allowProvisioningUpdates
         
 #       - name: Build Flutter
 #         run: flutter build ipa --release -t lib/main_prod.dart --flavor prod --export-options-plist=ios/Runner/ExportOptions.plist
@@ -83,8 +83,8 @@ jobs:
 #         run: |
 #           xcodebuild -workspace ios/Runner.xcworkspace -scheme prod -configuration Release -sdk 'iphoneos' -destination 'generic/platform=iOS' -archivePath build-output/app.xcarchive clean archive -allowProvisioningUpdates
      
-      - name: Export ipa
-        run: xcodebuild -exportArchive -archivePath build-output/app.xcarchive -exportPath ./build -exportOptionsPlist ios/Runner/ExportOptions.plist
+#       - name: Export ipa
+#         run: xcodebuild -exportArchive -archivePath build-output/app.xcarchive -exportPath ./build -exportOptionsPlist ios/Runner/ExportOptions.plist
 
       # Collect the file and upload as artifact         
       - name: collect ipa artifacts
