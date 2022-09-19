@@ -107,14 +107,14 @@ jobs:
 #           GITHUB_TOKEN : ${{ github.token }}
 #           DIAWI_TOKEN: ${{ secrets.DIAWI_TOKEN }}
         run: |
-            ruby diawi_uploader.rb -e "DiawiUploader.download_link_for_file(./build/ios/ipa/field_services.ipa, ${{ secrets.DIAWI_TOKEN }})"
+            ruby -r "./diawi_uploader.rb" -e "DiawiUploader.download_link_for_file 'daikin.ipa','${{ secrets.DIAWI_TOKEN }}'"
 #         with:
 #           token: ${{ secrets.DIAWI_TOKEN }}
 #           file: ./build/ios/ipa/field_services.ipa
 # #           comment: ${{ github.event.head_commit.message }}
             
       - name: Output
-        run: echo "Diawi URL = ${{ steps.diawi.outputs['url'] }}"
+        run: echo "Diawi URL = ${{ steps.diawi.outputs['links'] }}"
         
       - name: Notify dedicated teams channel
         uses: jdcargile/ms-teams-notification@v1.3
