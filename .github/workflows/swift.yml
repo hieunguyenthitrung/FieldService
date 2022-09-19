@@ -79,8 +79,8 @@ jobs:
             -scheme prod \
             -archivePath build-output/
         
-#       - name: Build Flutter
-#         run: flutter build ipa --release -t lib/main_prod.dart --flavor prod --export-options-plist=ios/Runner/ExportOptions.plist
+      - name: Build Flutter
+        run: flutter build ipa --release -t lib/main_prod.dart --flavor prod #--export-options-plist=ios/Runner/ExportOptions.plist
 
 #       - name: Build xArchive
 #         run: |
