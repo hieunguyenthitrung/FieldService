@@ -73,7 +73,7 @@ jobs:
         
       - name: Build xArchive
         run: |
-         xcodebuild  -exportArchive -archivePath "./prod - Runner.xcarchive" -exportOptionsPlist ios/Runner/ExportOptions.plist
+         xcodebuild  -exportArchive -archivePath "Runner.xcarchive" -exportOptionsPlist ios/Runner/ExportOptions.plist
            -exportPath build-output/app.xcarchive -allowProvisioningUpdates
         
 #       - name: Build Flutter
