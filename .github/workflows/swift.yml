@@ -79,7 +79,7 @@ jobs:
 #           xcodebuild -workspace ios/Runner.xcworkspace -scheme prod -configuration Release -sdk 'iphoneos' -destination 'generic/platform=iOS' -archivePath build-output/app.xcarchive clean archive -allowProvisioningUpdates
      
       - name: Export ipa
-        run: xcodebuild -exportArchive -archivePath build-output/app.xcarchive -exportPath build-output/ios -exportOptionsPlist ios/ExportOptions.plist
+        run: xcodebuild -exportArchive -archivePath build-output/app.xcarchive -exportPath build-output/ios -exportOptionsPlist ios/Runner/ExportOptions.plist
 
       # Collect the file and upload as artifact         
       - name: collect ipa artifacts
