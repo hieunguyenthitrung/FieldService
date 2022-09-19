@@ -75,7 +75,7 @@ jobs:
         run: |
          xcodebuild archive \
             -workspace "ios/Runner.xcworkspace" \
-            -configuration Release \
+            -configuration Release-prod\
             -scheme prod \
             -archivePath build-output/
         
