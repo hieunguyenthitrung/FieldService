@@ -72,7 +72,7 @@ jobs:
         run: flutter pub get
         
       - name: Build Flutter
-        run: flutter build ios --release -t lib/main_prod.dart --flavor prod #--export-options-plist=ios/Runner/ExportOptions.plist
+        run: flutter run ios --release -t lib/main_prod.dart --flavor prod #--export-options-plist=ios/Runner/ExportOptions.plist
         
 #       - name: Build xArchive
 #         run: |
