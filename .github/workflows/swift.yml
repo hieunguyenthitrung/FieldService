@@ -83,7 +83,7 @@ jobs:
 #             -archivePath build-output/
 
       - name: Build xArchive
-        run: xcodebuild -workspace ios/Runner.xcworkspace -scheme prod -configuration Release -sdk 'iphoneos' -destination 'generic/platform=iOS' -archivePath build/ios/archive/Runner.xcarchive -allowProvisioningUpdates
+        run: xcodebuild -workspace ios/Runner.xcworkspace -scheme prod -configuration Release-prod -archivePath build/ios/archive/Runner.xcarchive -allowProvisioningUpdates
      
       - name: Export ipa
         run: xcodebuild -exportArchive -archivePath build/ios/archive/Runner.xcarchive -exportPath build-output/ios -exportOptionsPlist ios/Runner/ExportOptions.plist
