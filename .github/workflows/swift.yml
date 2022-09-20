@@ -71,8 +71,8 @@ jobs:
       - name: Download pub dependencies
         run: flutter pub get
         
-#       - name: Build Flutter
-#         run: flutter build ios --release -t lib/main_prod.dart --flavor prod #--export-options-plist=ios/Runner/ExportOptions.plist
+      - name: Build Flutter
+        run: flutter build ios --release -t lib/main_prod.dart --flavor prod #--export-options-plist=ios/Runner/ExportOptions.plist
         
 #       - name: Build xArchive
 #         run: |
