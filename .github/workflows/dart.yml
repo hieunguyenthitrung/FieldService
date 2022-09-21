@@ -94,6 +94,6 @@ jobs:
           packageName: ${{ secrets.ANDROID_PACKAGE_NAME }}
           releaseFiles: build/app/outputs/bundle/prodRelease/app-prod-release.aab
 #           track: internal #---> Environment for Testing in Google Play
-#           status: draft 
+#           status: draft #---> Then go to the Google Play and Rollout to Testing
           track: production  #---> Environment for PRODUCTION in Google Play //production, beta, alpha, internalsharing, internal,
-          status: completed #---> completed, inProgress, halted, draft
+          status: draft #---> Then go to the Google Play and Rollout to Production #---> completed, inProgress, halted, draft
