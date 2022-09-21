@@ -96,14 +96,14 @@ jobs:
         with:
          name: release-ipa
          # Path to the release files
-         path: build-output/ios/*.ipa
+         path: build/ios/ipa/*.ipa # build-output/ios/*.ipa (if using exportPath)
       
       - name: Upload APK to Diawii
         id: diawi
         uses: rnkdsh/action-upload-diawi@v1.2.7
         with:
           token: ${{ secrets.DIAWI_TOKEN }}
-          file: build-output/ios/field_services.ipa
+          file: build/ios/ipa/field_services.ipa # build-output/ios/field_services.ipa (if using exportPath)
         
       - name: Notify dedicated teams channel
         uses: jdcargile/ms-teams-notification@v1.3
