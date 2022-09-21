@@ -121,7 +121,7 @@ jobs:
         uses: rnkdsh/action-upload-diawi@v1.2.7
         with:
           token: ${{ secrets.DIAWI_TOKEN }}
-          file: ./build/ios/ipa/field_services.ipa
+          file: build-output/ios/field_services.ipa
 
 #       - name: Upload APK to Diawii
 #         id: diawi
