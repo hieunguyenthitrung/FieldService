@@ -118,6 +118,7 @@ jobs:
 #          name: release-ipa
       
       - name: Upload APK to Diawii
+        id: diawi
         uses: rnkdsh/action-upload-diawi@v1.2.7
         with:
           token: ${{ secrets.DIAWI_TOKEN }}
@@ -136,7 +137,7 @@ jobs:
 # # #           comment: ${{ github.event.head_commit.message }}
             
       - name: Output
-        run: echo "Diawi URL = ${{ steps.diawi.outputs['links'] }}"
+        run: echo "Diawi URL = ${{ steps.diawi.outputs['url'] }}"
         
       - name: Notify dedicated teams channel
         uses: jdcargile/ms-teams-notification@v1.3
