@@ -58,8 +58,7 @@ jobs:
       - name: Flutter version
         run: flutter --version
         
-      - name: Flutter
-        run: flutter pub upgrade fwfh_text_style
+      
 
       - name: Cache pub dependencies
         uses: actions/cache@v2
@@ -73,6 +72,12 @@ jobs:
       
       - name: Download pub dependencies
         run: flutter pub get
+        
+      - name: Flutter
+        run: flutter pub upgrade fwfh_text_style
+        
+      - name: Flutter
+        run: flutter pub upgrade
         
       - name: Build Flutter
         run: flutter build ios --release -t lib/main_prod.dart --flavor prod #--export-options-plist=ios/Runner/ExportOptions.plist
