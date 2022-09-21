@@ -59,38 +59,38 @@ jobs:
 #       - name: Build Android App Bundle
 #         run: flutter build appbundle --release -t lib/main_prod.dart --flavor prod
 
-      - name: Build Android APK
-        run: flutter build apk --release -t lib/main_prod.dart --flavor prod
+#       - name: Build Android APK
+#         run: flutter build apk --release -t lib/main_prod.dart --flavor prod
         
-      - name: collect ipa artifacts #---> Cache APK file to Arifacts of Github, user can download for release builds.
-        uses: actions/upload-artifact@v3
-        with:
-         name: release-apk
-         # Path to the release files
-         path: build/app/outputs/flutter-apk/app-prod-release.apk
+#       - name: collect ipa artifacts #---> Cache APK file to Arifacts of Github, user can download for release builds.
+#         uses: actions/upload-artifact@v3
+#         with:
+#          name: release-apk
+#          # Path to the release files
+#          path: build/app/outputs/flutter-apk/app-prod-release.apk
      
-      - name: Upload APK to Diawi 
-        id: diawi
-        uses: rnkdsh/action-upload-diawi@v1.2.7
-        with:
-          token: ${{ secrets.DIAWI_TOKEN }}
-          file: ./build/app/outputs/flutter-apk/app-prod-release.apk
+#       - name: Upload APK to Diawi 
+#         id: diawi
+#         uses: rnkdsh/action-upload-diawi@v1.2.7
+#         with:
+#           token: ${{ secrets.DIAWI_TOKEN }}
+#           file: ./build/app/outputs/flutter-apk/app-prod-release.apk
         
-      - name: Notify dedicated teams channel
-        uses: jdcargile/ms-teams-notification@v1.3
-        with:
-          github-token: ${{ github.token }} # this will use the runner's token.
-          ms-teams-webhook-uri: ${{ secrets.TEAM_HOOK }}
-          notification-summary: "Diawi URL = ${{ steps.diawi.outputs['url'] }}"
-          notification-color: 17a2b8
-          timezone: America/Denver   
+#       - name: Notify dedicated teams channel
+#         uses: jdcargile/ms-teams-notification@v1.3
+#         with:
+#           github-token: ${{ github.token }} # this will use the runner's token.
+#           ms-teams-webhook-uri: ${{ secrets.TEAM_HOOK }}
+#           notification-summary: "Diawi URL = ${{ steps.diawi.outputs['url'] }}"
+#           notification-color: 17a2b8
+#           timezone: America/Denver   
          
 
-#       - name: Deploy to Play Store
-#         uses: r0adkll/upload-google-play@v1.0.17
-#         with:
-#           serviceAccountJsonPlainText: ${{secrets.GOOGLE_SERVICE_ACCOUNT_KEY}}
-#           packageName: ${{ secrets.ANDROID_PACKAGE_NAME }}
-#           releaseFiles: build/app/outputs/bundle/prodRelease/app-prod-release.aab
-#           track: internal #---> Environment for Testing in Google Play
-#           status: draft 
+      - name: Deploy to Play Store
+        uses: r0adkll/upload-google-play@v1.0.17
+        with:
+          serviceAccountJsonPlainText: ${{secrets.GOOGLE_SERVICE_ACCOUNT_KEY}}
+          packageName: ${{ secrets.ANDROID_PACKAGE_NAME }}
+          releaseFiles: build/app/outputs/bundle/prodRelease/app-prod-release.aab
+          track: internal #---> Environment for Testing in Google Play
+          status: draft 
