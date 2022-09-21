@@ -62,12 +62,13 @@ jobs:
 #       - name: Build Android APK
 #         run: flutter build apk --release -t lib/main_prod.dart --flavor prod
         
-#       - name: collect ipa artifacts #---> Cache APK file to Arifacts of Github, user can download for release builds.
-#         uses: actions/upload-artifact@v3
-#         with:
-#          name: release-apk
-#          # Path to the release files
+      - name: collect release artifacts #---> Cache APK file to Arifacts of Github, user can download for release builds.
+        uses: actions/upload-artifact@v3
+        with:
+         name: release-apk
+         # Path to the release files
 #          path: build/app/outputs/flutter-apk/app-prod-release.apk
+         path: build/app/outputs/bundle/prodRelease/app-prod-release.aab
      
 #       - name: Upload APK to Diawi 
 #         id: diawi
@@ -92,7 +93,7 @@ jobs:
           serviceAccountJsonPlainText: ${{secrets.GOOGLE_SERVICE_ACCOUNT_KEY}}
           packageName: ${{ secrets.ANDROID_PACKAGE_NAME }}
           releaseFiles: build/app/outputs/bundle/prodRelease/app-prod-release.aab
-#           track: internal #---> Environment for Testing in Google Play
-#           status: draft 
-          track: production  #---> Environment for PRODUCTION in Google Play //production, beta, alpha, internalsharing, internal,
-          status: inProgress #---> completed, inProgress, halted, draft
+          track: internal #---> Environment for Testing in Google Play
+          status: draft 
+#           track: production  #---> Environment for PRODUCTION in Google Play //production, beta, alpha, internalsharing, internal,
+#           status: inProgress #---> completed, inProgress, halted, draft
