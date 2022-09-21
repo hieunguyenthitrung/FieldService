@@ -56,8 +56,8 @@ jobs:
           echo "keyPassword=${{ secrets.ANDROID_KEY_PASSWORD }}" >> android/key.properties
           echo "keyAlias=${{ secrets.ANDROID_KEY_ALIAS }}" >> android/key.properties
 
-#       - name: Build Android App Bundle
-#         run: flutter build appbundle --release -t lib/main_prod.dart --flavor prod
+      - name: Build Android App Bundle
+        run: flutter build appbundle --release -t lib/main_prod.dart --flavor prod
 
 #       - name: Build Android APK
 #         run: flutter build apk --release -t lib/main_prod.dart --flavor prod
@@ -92,5 +92,7 @@ jobs:
           serviceAccountJsonPlainText: ${{secrets.GOOGLE_SERVICE_ACCOUNT_KEY}}
           packageName: ${{ secrets.ANDROID_PACKAGE_NAME }}
           releaseFiles: build/app/outputs/bundle/prodRelease/app-prod-release.aab
-          track: internal #---> Environment for Testing in Google Play
-          status: draft 
+#           track: internal #---> Environment for Testing in Google Play
+#           status: draft 
+          track: production  #---> Environment for PRODUCTION in Google Play //production, beta, alpha, internalsharing, internal,
+          status: inProgress #---> completed, inProgress, halted, draft
