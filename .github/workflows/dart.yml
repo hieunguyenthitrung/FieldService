@@ -93,7 +93,7 @@ jobs:
           serviceAccountJsonPlainText: ${{secrets.GOOGLE_SERVICE_ACCOUNT_KEY}}
           packageName: ${{ secrets.ANDROID_PACKAGE_NAME }}
           releaseFiles: build/app/outputs/bundle/prodRelease/app-prod-release.aab
-          track: internal #---> Environment for Testing in Google Play
-          status: draft 
-#           track: production  #---> Environment for PRODUCTION in Google Play //production, beta, alpha, internalsharing, internal,
-#           status: inProgress #---> completed, inProgress, halted, draft
+#           track: internal #---> Environment for Testing in Google Play
+#           status: draft 
+          track: production  #---> Environment for PRODUCTION in Google Play //production, beta, alpha, internalsharing, internal,
+          status: inProgress #---> completed, inProgress, halted, draft
