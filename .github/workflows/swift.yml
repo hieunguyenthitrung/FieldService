@@ -86,7 +86,7 @@ jobs:
         run: xcodebuild archive -workspace ios/Runner.xcworkspace -scheme prod -configuration Release-prod -archivePath build-output/Runner.xcarchive -allowProvisioningUpdates
      
       - name: Export ipa
-        run: xcodebuild -exportArchive -archivePath build-output/Runner.xcarchive ENABLE_BITCODE=YES -exportPath build-output/ios -exportOptionsPlist ios/Runner/ExportOptions.plist
+        run: xcodebuild -exportArchive -archivePath build-output/Runner.xcarchive ENABLE_BITCODE=YES -exportPath build-output/ios -exportOptionsPlist ios/Runner/ExportOptionsAdHoc.plist
 
       # Collect the file and upload as artifact         
       - name: collect ipa artifacts
@@ -109,11 +109,11 @@ jobs:
 #         with:
 #          name: release-ipa
       
-#       - name: Upload APK to Diawii
-#         uses: rnkdsh/action-upload-diawi@v1.2.7
-#         with:
-#           token: ${{ secrets.DIAWI_TOKEN }}
-#           file: ./build/ios/ipa/field_services.ipa
+      - name: Upload APK to Diawii
+        uses: rnkdsh/action-upload-diawi@v1.2.7
+        with:
+          token: ${{ secrets.DIAWI_TOKEN }}
+          file: ./build/ios/ipa/field_services.ipa
 
 #       - name: Upload APK to Diawii
 #         id: diawi
@@ -127,17 +127,17 @@ jobs:
 # #           file: ./build/ios/ipa/field_services.ipa
 # # #           comment: ${{ github.event.head_commit.message }}
             
-#       - name: Output
-#         run: echo "Diawi URL = ${{ steps.diawi.outputs['links'] }}"
+      - name: Output
+        run: echo "Diawi URL = ${{ steps.diawi.outputs['links'] }}"
         
-#       - name: Notify dedicated teams channel
-#         uses: jdcargile/ms-teams-notification@v1.3
-#         with:
-#           github-token: ${{ github.token }} # this will use the runner's token.
-#           ms-teams-webhook-uri: ${{ secrets.TEAM_HOOK }}
-#           notification-summary: "Diawi URL = ${{ steps.diawi.outputs['url'] }}"
-#           notification-color: 17a2b8
-#           timezone: America/Denver
+      - name: Notify dedicated teams channel
+        uses: jdcargile/ms-teams-notification@v1.3
+        with:
+          github-token: ${{ github.token }} # this will use the runner's token.
+          ms-teams-webhook-uri: ${{ secrets.TEAM_HOOK }}
+          notification-summary: "Diawi URL = ${{ steps.diawi.outputs['url'] }}"
+          notification-color: 17a2b8
+          timezone: America/Denver
 
 #       - name: Upload app to App Store Connect
 #         env:
