@@ -57,6 +57,9 @@ jobs:
 
       - name: Flutter version
         run: flutter --version
+        
+      - name: Flutter
+        run: flutter pub upgrade fwfh_text_style
 
       - name: Cache pub dependencies
         uses: actions/cache@v2
