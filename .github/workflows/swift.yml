@@ -1,5 +1,5 @@
 
-name: "[DEV] Build and Publish iOS"
+name: "iOS Release"
 on: workflow_dispatch
     
 jobs:
