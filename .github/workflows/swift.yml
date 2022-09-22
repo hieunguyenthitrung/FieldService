@@ -72,10 +72,10 @@ jobs:
       - name: Download pub dependencies
         run: flutter pub get
         
-      - name: Flutter
+      - name: Upgrade pub text_style
         run: flutter pub upgrade fwfh_text_style
         
-      - name: Flutter
+      - name: Upgrade pub dependencies
         run: flutter pub upgrade
         
 #       - name: Build Flutter #---> Build Flutter to pod install
@@ -98,28 +98,28 @@ jobs:
          # Path to the release files
          path: build/ios/ipa/*.ipa # build-output/ios/*.ipa (if using exportPath)
       
-      - name: Upload APK to Diawii
-        id: diawi
-        uses: rnkdsh/action-upload-diawi@v1.2.7
-        with:
-          token: ${{ secrets.DIAWI_TOKEN }}
-          file: build/ios/ipa/field_services.ipa # build-output/ios/field_services.ipa (if using exportPath)
-        
+#       - name: Upload IPA to Diawii
+#         id: diawi
+#         uses: rnkdsh/action-upload-diawi@v1.2.7
+#         with:
+#           token: ${{ secrets.DIAWI_TOKEN }}
+#           file: build/ios/ipa/field_services.ipa # build-output/ios/field_services.ipa (if using exportPat
+
+      - name: Upload app to App Store Connect
+        env:
+          APP_STORE_CONNECT_USERNAME: ${{ secrets.APPSTORE_CONNECT_USERNAME }}
+          APP_STORE_CONNECT_PASSWORD: ${{ secrets.APPSTORE_CONNECT_PASSWORD }}
+        run: |
+          xcrun altool --upload-app -t ios -f build/ios/ipa/*.ipa -u "$APP_STORE_CONNECT_USERNAME" -p "$APP_STORE_CONNECT_PASSWORD"
+
       - name: Notify dedicated teams channel
         uses: jdcargile/ms-teams-notification@v1.3
         with:
           github-token: ${{ github.token }} # this will use the runner's token.
           ms-teams-webhook-uri: ${{ secrets.TEAM_HOOK }}
-          notification-summary: "Diawi URL = ${{ steps.diawi.outputs['url'] }}"
+          notification-summary: "Upload to TestFlight" #"Diawi URL = ${{ steps.diawi.outputs['url'] }}"
           notification-color: 17a2b8
           timezone: America/Denver
-
-#       - name: Upload app to App Store Connect
-#         env:
-#           APP_STORE_CONNECT_USERNAME: ${{ secrets.APPSTORE_CONNECT_USERNAME }}
-#           APP_STORE_CONNECT_PASSWORD: ${{ secrets.APPSTORE_CONNECT_PASSWORD }}
-#         run: |
-#           xcrun altool --upload-app -t ios -f build/ios/ipa/*.ipa -u "$APP_STORE_CONNECT_USERNAME" -p "$APP_STORE_CONNECT_PASSWORD"
           
   #-----------------------------------------------------------------------------------------------------------------------
           
